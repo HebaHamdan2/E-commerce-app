@@ -6,10 +6,15 @@ export default {
   ],
   theme: {
     extend: {
+      screens:{
+        '2md':'960px'
+      },
       colors:{
-        secondaryText:"#DB4444"
-      }
-    },
+        primary:"#DB4444",
+        primaryText:'#000000'
+      },fontFamily:{
+        Inter:['Poppins','sans-serif'],
+    },},
   },
   plugins: [],
 }
