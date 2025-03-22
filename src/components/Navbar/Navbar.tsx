@@ -25,14 +25,48 @@ const Navbar = () => {
   } 2md:flex items-center flex-col 2md:flex-row absolute 2md:static top-[80px] bg-white px-[30%] py-3 left-0 shadow 2md:p-0 2md:shadow-none z-50`}
 >
         <ul className="flex flex-col 2md:flex-row gap-4 items-center justify-center">
-          <li>
+          <li role="button" className="btn btn-ghost btn-circle">
             <img src="../../../src/assets/Vector.svg" alt="fav" />
           </li>
-          <li>
+          <li role="button" className="btn btn-ghost btn-circle">
             <img src="../../../src/assets/Cart.svg" alt="cart" />
           </li>
           <li>
-            <img src="../../../src/assets/user.svg" alt="user" />
+          <div className="dropdown">
+  <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+    <img src="../../../src/assets/user.svg" alt="user" className="w-6 h-6" /> 
+  </div>
+  <ul
+    tabIndex={0}
+    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
+  >
+    <li>
+      <Link to={''} className="flex items-center gap-3 px-3 py-2">
+        <img src="../../../src/assets/user (2).svg" alt="account" className="w-5 h-5" /> 
+        <span>Manage My Account</span>
+      </Link>
+    </li>
+    <li>
+      <Link to={''} className="flex items-center gap-3 px-3 py-2">
+        <img src="../../../src/assets/Group.svg" alt="orders" className="w-5 h-5" /> 
+        <span>My Orders</span>
+      </Link>
+    </li>
+    <li>
+      <Link to={''} className="flex items-center gap-3 px-3 py-2">
+        <img src="../../../src/assets/Vector (4).svg" alt="reviews" className="w-5 h-5" /> 
+        <span>My Reviews</span>
+      </Link>
+    </li>
+    <li>
+      <button className="flex items-center gap-3 w-full px-3 py-2 text-left hover:bg-gray-100">
+        <img src="../../../src/assets/Vector (3).svg" alt="logout" className="w-5 h-5" />
+        <span>Logout</span>
+      </button>
+    </li>
+  </ul>
+</div>
+
           </li>
     <NavLink to={'/signup'}  className={({ isActive }) => 
     `text-primaryText font-normal text-base ${isActive ? 'underline' : ''}`
