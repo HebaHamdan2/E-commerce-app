@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -34,7 +34,9 @@ const Navbar = () => {
           <li>
             <img src="../../../src/assets/user.svg" alt="user" />
           </li>
-          <li className="text-primaryText font-normal text-base ">Sign Up</li>
+    <NavLink to={'/signup'}  className={({ isActive }) => 
+    `text-primaryText font-normal text-base ${isActive ? 'underline' : ''}`
+  }><li>Sign Up</li></NavLink>
         </ul>
       </div>
     </div>
