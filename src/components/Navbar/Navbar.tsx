@@ -20,10 +20,10 @@ const Navbar = () => {
 
       {/* Menu Items */}
       <div
-        className={`${
-          menuOpen ? "block" : "hidden"
-        } 2md:flex items-center flex-col 2md:flex-row absolute 2md:static top-[80px] bg-white px-[30%]  py-3 left-0 shadow 2md:p-0 2md:shadow-none`}
-      >
+  className={`${
+    menuOpen ? "block" : "hidden"
+  } 2md:flex items-center flex-col 2md:flex-row absolute 2md:static top-[80px] bg-white px-[30%] py-3 left-0 shadow 2md:p-0 2md:shadow-none z-50`}
+>
         <ul className="flex flex-col 2md:flex-row gap-4 items-center justify-center">
           <li>
             <img src="../../../src/assets/Vector.svg" alt="fav" />

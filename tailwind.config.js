@@ -16,5 +16,7 @@ export default {
         Inter:['Poppins','sans-serif'],
     },},
   },
-  plugins: [],
+  plugins: [
+  require("daisyui"), 
+  ],
 }
