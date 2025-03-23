@@ -6,6 +6,11 @@ import Login from './pages/Login'
 import ResetPassword from './pages/ResetPassword'
 import SendCode from './pages/SendCode'
 import NotFound from './pages/NotFound'
+import UserAccount from './pages/UserAccount'
+import AllReviews from './pages/AllReviews'
+import AllOrders from './pages/AllOrders'
+import Favourite from './pages/Favourite'
+import Cart from './pages/Cart'
 
 function App() {
   const router = createBrowserRouter(
@@ -16,6 +21,11 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/reset' element={<ResetPassword />} />
           <Route path='/sendcode' element={<SendCode />} />
+          <Route path='/account' element={<UserAccount />} />
+          <Route path='/reviews' element={<AllReviews />} />
+          <Route path='/orders' element={<AllOrders />} />
+          <Route path='/favourite' element={<Favourite />} />
+          <Route path='/cart' element={<Cart />} />
           <Route path="*" element={<NotFound />} />
       </Route>
     )

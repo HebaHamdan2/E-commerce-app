@@ -26,10 +26,13 @@ const Navbar = () => {
 >
         <ul className="flex flex-col 2md:flex-row gap-4 items-center justify-center">
           <li role="button" className="btn btn-ghost btn-circle">
+            <Link to={'/favourite'}>
             <img src="../../../src/assets/Vector.svg" alt="fav" />
+            </Link>
+            
           </li>
           <li role="button" className="btn btn-ghost btn-circle">
-            <img src="../../../src/assets/Cart.svg" alt="cart" />
+            <Link to={'/cart'}>  <img src="../../../src/assets/Cart.svg" alt="cart" /></Link>
           </li>
           <li>
           <div className="dropdown">
@@ -41,19 +44,19 @@ const Navbar = () => {
     className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
   >
     <li>
-      <Link to={''} className="flex items-center gap-3 px-3 py-2">
+      <Link to={'/account'} className="flex items-center gap-3 px-3 py-2">
         <img src="../../../src/assets/user (2).svg" alt="account" className="w-5 h-5" /> 
         <span>Manage My Account</span>
       </Link>
     </li>
     <li>
-      <Link to={''} className="flex items-center gap-3 px-3 py-2">
+      <Link to={'/orders'} className="flex items-center gap-3 px-3 py-2">
         <img src="../../../src/assets/Group.svg" alt="orders" className="w-5 h-5" /> 
         <span>My Orders</span>
       </Link>
     </li>
     <li>
-      <Link to={''} className="flex items-center gap-3 px-3 py-2">
+      <Link to={'/reviews'} className="flex items-center gap-3 px-3 py-2">
         <img src="../../../src/assets/Vector (4).svg" alt="reviews" className="w-5 h-5" /> 
         <span>My Reviews</span>
       </Link>
