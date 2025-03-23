@@ -1,9 +1,9 @@
 
 const Footer = () => {
     return (
-        <div>
-          footer  
-        </div>
+      <div className="bg-primaryText text-white py-8 mt-10 text-center text-base border-t pt-4">
+      &copy; {new Date().getFullYear()} Heba Hamdan. All Rights Reserved
+  </div>
     );
 }
 
