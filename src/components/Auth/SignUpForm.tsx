@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import * as yup from "yup"
 import { SignUpFormData } from "../../types/authTypes";
+import  useSignUp from "../../hooks/useSignup";
 const schema = yup
   .object({
     userName: yup
@@ -26,7 +27,9 @@ const SignUpForm = () => {
       } = useForm<SignUpFormData>({
         resolver: yupResolver(schema),
       })
-      const onSubmit: SubmitHandler<SignUpFormData> = (data) => console.log(data)
+      const {signup} = useSignUp();
+      const onSubmit: SubmitHandler<SignUpFormData> = (data) => signup(data);
+
     return (
         <div className="flex flex-col 2md:flex-row ">
        <img src="../../../src/assets/dl.beatsnoop 1.svg" alt="signup" />   
