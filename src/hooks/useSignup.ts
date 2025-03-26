@@ -1,6 +1,7 @@
 import axios from "axios";
 import { SignUpFormData } from "../types/authTypes";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
  const useSignUp=()=> {
     let navigate = useNavigate();
@@ -10,14 +11,14 @@ import { useNavigate } from "react-router-dom";
         const { data } = response;
   
         if (data?.message === "success") {
-          console.log("Signup successful!");
+          toast.success("Signup successful!");
           navigate("../login");
         } else {
-          console.log(data?.validationArray[0] || "Signup failed.");
+          toast.error(data?.validationArray[0] || "Signup failed.");
         }
   
       } catch (error: any) {
-        console.log(error?.response?.data?.message || "An error occurred during signup.");
+        toast.error(error?.response?.data?.message || "An error occurred during signup.");
       }
     };
   

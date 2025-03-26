@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import * as yup from "yup"
 import { LoginFormData } from "../../types/authTypes";
 import { yupResolver } from "@hookform/resolvers/yup";
+import UseLogin from "../../hooks/useLogin";
 const schema = yup
   .object({
   email: yup.string().required("Email is required").email("Please enter a valid email"),
@@ -17,8 +18,9 @@ const LoginForm = () => {
           } = useForm<LoginFormData>({
             resolver: yupResolver(schema),
           })
-          const onSubmit: SubmitHandler<LoginFormData> = (data) => console.log(data)
-    
+          const {login}=UseLogin();
+          const onSubmit: SubmitHandler<LoginFormData> = async(data) => login(data);
+   
     return (
         <div className="flex flex-col 2md:flex-row ">
         <img src="../../../src/assets/dl.beatsnoop 1.svg" alt="signup" />   

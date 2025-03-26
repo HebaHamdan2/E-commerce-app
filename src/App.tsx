@@ -11,6 +11,7 @@ import AllReviews from './pages/AllReviews'
 import AllOrders from './pages/AllOrders'
 import Favourite from './pages/Favourite'
 import Cart from './pages/Cart'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
   const router = createBrowserRouter(
@@ -33,9 +34,30 @@ function App() {
   
   return (
     <>
-       <RouterProvider router={router} />
+    
+      <RouterProvider router={router} />
+       <Toaster 
+       toastOptions={{
+        // Define default options
+        className: '',
+        duration: 5000,
+        removeDelay: 1000,
+        style: {
+          background: '#363636',
+          color: '#fff',
+        },
+    
+        // Default options for specific types
+        success: {
+          duration: 3000,
+          iconTheme: {
+            primary: 'green',
+            secondary: 'black',
+          },
+        },
+      }}
+       />
     </>
   )
 }
-
 export default App
