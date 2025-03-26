@@ -1,9 +1,8 @@
-import { useState } from "react";
+import {  useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-
   return (
     <div className="wrapper mt-10 mb-4 flex justify-between items-center  ">
       <Link to={"/"}>
@@ -70,7 +69,7 @@ const Navbar = () => {
   </ul>
 </div>
 
-          </li>
+          </li>  
     <NavLink to={'/signup'}  className={({ isActive }) => 
     `text-primaryText font-normal text-base ${isActive ? 'underline' : ''}`
   }><li>Sign Up</li></NavLink>

@@ -2,13 +2,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup"
 import { SendCodeFormData } from "../../types/authTypes";
+import UseSendCode from "../../hooks/useSendCode";
 const schema=yup.object({
       email: yup.string().required("Email is required").email("Please enter a valid email"),
     
 })
 const SendCodeForm = () => {
     const {register,handleSubmit,formState:{errors}}=useForm<SendCodeFormData>({resolver:yupResolver(schema)});
-    const onSubmit:SubmitHandler<SendCodeFormData>=(data)=>console.log(data)
+    const {sendCode}=UseSendCode()
+    const onSubmit:SubmitHandler<SendCodeFormData>=(data)=>sendCode(data)
     return (
         <div className="flex flex-col 2md:flex-row ">
        <img src="../../../src/assets/dl.beatsnoop 1.svg" alt="sendcode" />   

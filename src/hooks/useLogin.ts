@@ -24,14 +24,12 @@ const UseLogin = () => {
         }
 
     }catch(error:any){
-        toast.error(
-            error.response?.data?.validationError?.[0]?.message ||
-            error.response?.data?.message ||
-            "An error occurred during login."
-          );
-        
-    }
-   }
+      toast.error(
+        error.response?.data?.validationError?.[0]?.message ||
+        error.response?.data?.message ||
+        "An error occurred during login."
+      );
+   }}
    
     return {login}
 }

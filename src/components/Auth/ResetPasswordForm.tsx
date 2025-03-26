@@ -2,6 +2,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup"
 import { ResetFormData } from "../../types/authTypes";
 import { yupResolver } from "@hookform/resolvers/yup";
+import UseReset from "../../hooks/useReset";
 
 const schema = yup
   .object({
@@ -13,7 +14,8 @@ const schema = yup
 
 const ResetPasswordForm = () => {
     const {register,handleSubmit,formState:{errors}}=useForm<ResetFormData>({resolver:yupResolver(schema)});
-    const onSubmit:SubmitHandler<ResetFormData>=(data)=>console.log(data)
+    const {resetPassword}=UseReset()
+    const onSubmit:SubmitHandler<ResetFormData>=(data)=>resetPassword(data)
     return (
         <div className="flex flex-col 2md:flex-row ">
        <img src="../../../src/assets/dl.beatsnoop 1.svg" alt="signup" />   

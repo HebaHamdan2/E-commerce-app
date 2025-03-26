@@ -12,30 +12,39 @@ import AllOrders from './pages/AllOrders'
 import Favourite from './pages/Favourite'
 import Cart from './pages/Cart'
 import { Toaster } from 'react-hot-toast'
+import AuthRedirectRoute from './components/ProtectedRoute/AuthRedirectRoute'
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
+import { AuthProvider } from './context/AuthContext'
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path='/' element={<Layout />}>
-          <Route path='/' element={<Home />} />
-          <Route path='/signup' element={<SignUp />} />
+         <Route element={<AuthRedirectRoute />}>
+         <Route path='/signup' element={<SignUp />} />
           <Route path='/login' element={<Login />} />
           <Route path='/reset' element={<ResetPassword />} />
           <Route path='/sendcode' element={<SendCode />} />
+        </Route>
+        <Route path='/' element={<Home />} />
+        <Route path='/favourite' element={<Favourite />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/cart" element={<Cart />} />
           <Route path='/account' element={<UserAccount />} />
           <Route path='/reviews' element={<AllReviews />} />
           <Route path='/orders' element={<AllOrders />} />
-          <Route path='/favourite' element={<Favourite />} />
-          <Route path='/cart' element={<Cart />} />
+        </Route>
+         
           <Route path="*" element={<NotFound />} />
       </Route>
     )
   )
-  
   return (
     <>
-    
-      <RouterProvider router={router} />
+    <AuthProvider>
+    <RouterProvider router={router} />
+    </AuthProvider>
+   
        <Toaster 
        toastOptions={{
         // Define default options
