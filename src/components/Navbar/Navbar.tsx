@@ -1,8 +1,10 @@
-import {  useState } from "react";
+import {  useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import AuthContext from "../../context/AuthContext";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const auth=useContext(AuthContext);
   return (
     <div className="wrapper mt-10 mb-4 flex justify-between items-center  ">
       <Link to={"/"}>
@@ -34,45 +36,50 @@ const Navbar = () => {
             <Link to={'/cart'}>  <img src="../../../src/assets/Cart.svg" alt="cart" /></Link>
           </li>
           <li>
-          <div className="dropdown">
-  <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
-    <img src="../../../src/assets/user.svg" alt="user" className="w-6 h-6" /> 
-  </div>
-  <ul
-    tabIndex={0}
-    className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
-  >
-    <li>
-      <Link to={'/account'} className="flex items-center gap-3 px-3 py-2">
-        <img src="../../../src/assets/user (2).svg" alt="account" className="w-5 h-5" /> 
-        <span>Manage My Account</span>
-      </Link>
-    </li>
-    <li>
-      <Link to={'/orders'} className="flex items-center gap-3 px-3 py-2">
-        <img src="../../../src/assets/Group.svg" alt="orders" className="w-5 h-5" /> 
-        <span>My Orders</span>
-      </Link>
-    </li>
-    <li>
-      <Link to={'/reviews'} className="flex items-center gap-3 px-3 py-2">
-        <img src="../../../src/assets/Vector (4).svg" alt="reviews" className="w-5 h-5" /> 
-        <span>My Reviews</span>
-      </Link>
-    </li>
-    <li>
-      <button className="flex items-center gap-3 w-full px-3 py-2 text-left hover:bg-gray-100">
-        <img src="../../../src/assets/Vector (3).svg" alt="logout" className="w-5 h-5" />
-        <span>Logout</span>
-      </button>
-    </li>
-  </ul>
-</div>
+            {auth?.isAuthenticated&&
+                    <div className="dropdown">
+                    <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+                      <img src="../../../src/assets/user.svg" alt="user" className="w-6 h-6" /> 
+                    </div>
+                    <ul
+                      tabIndex={0}
+                      className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
+                    >
+                      <li>
+                        <Link to={'/account'} className="flex items-center gap-3 px-3 py-2">
+                          <img src="../../../src/assets/user (2).svg" alt="account" className="w-5 h-5" /> 
+                          <span>Manage My Account</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to={'/orders'} className="flex items-center gap-3 px-3 py-2">
+                          <img src="../../../src/assets/Group.svg" alt="orders" className="w-5 h-5" /> 
+                          <span>My Orders</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to={'/reviews'} className="flex items-center gap-3 px-3 py-2">
+                          <img src="../../../src/assets/Vector (4).svg" alt="reviews" className="w-5 h-5" /> 
+                          <span>My Reviews</span>
+                        </Link>
+                      </li>
+                      <li>
+                        <button className="flex items-center gap-3 w-full px-3 py-2 text-left hover:bg-gray-100" onClick={auth?.logout} >
+                          <img src="../../../src/assets/Vector (3).svg" alt="logout" className="w-5 h-5" />
+                          <span>Logout</span>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>}
+  
 
           </li>  
-    <NavLink to={'/signup'}  className={({ isActive }) => 
-    `text-primaryText font-normal text-base ${isActive ? 'underline' : ''}`
-  }><li>Sign Up</li></NavLink>
+          {!auth?.isAuthenticated&&
+             <NavLink to={'/signup'}  className={({ isActive }) => 
+              `text-primaryText font-normal text-base ${isActive ? 'underline' : ''}`
+            }><li>Sign Up</li></NavLink>}
+ 
+
         </ul>
       </div>
     </div>
