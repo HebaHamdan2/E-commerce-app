@@ -15,6 +15,7 @@ import { Toaster } from 'react-hot-toast'
 import AuthRedirectRoute from './components/ProtectedRoute/AuthRedirectRoute'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import { AuthProvider } from './context/AuthContext'
+import CategoryProducts from './components/ProductsOfCategory/CategoryProducts'
 
 function App() {
   const router = createBrowserRouter(
@@ -27,6 +28,7 @@ function App() {
           <Route path='/sendcode' element={<SendCode />} />
         </Route>
         <Route path='/' element={<Home />} />
+        <Route path='/products/:categoryId' element={<CategoryProducts/>} />
         <Route path='/favourite' element={<Favourite />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/cart" element={<Cart />} />

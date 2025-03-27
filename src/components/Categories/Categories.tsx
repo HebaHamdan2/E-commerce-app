@@ -1,31 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import UseCategories from "../../hooks/useCtegories";
+import { useNavigate } from "react-router-dom";
 
-const categories :string[]= [
-    "Category 7"
-    , "Category 8"
-    , "Category 8"
-    , "Category 9", 
-    "Category 10", 
-    "Category 11",
-     "Category 12"
-
-];
+const itemsPerPage = 6;
 
 const Categories = () => {
+    const { allcatg, getCategories } = UseCategories();
     const [startIndex, setStartIndex] = useState<number>(0);
-    const itemsPerPage = 6;
+    const navigate=useNavigate()
+    useEffect(() => {
+        getCategories(1, 12);
+    }, []);
 
     const nextSlide = (): void => {
-        if (startIndex + itemsPerPage < categories.length) {
+        if (startIndex + itemsPerPage < allcatg.length) {
             setStartIndex(startIndex + itemsPerPage);
         }
     };
 
-    const prevSlide = (): void =>  {
+    const prevSlide = (): void => {
         if (startIndex - itemsPerPage >= 0) {
             setStartIndex(startIndex - itemsPerPage);
         }
     };
+    const handleCategory=(categoryId:string):void=>{
+        navigate(`/products/${categoryId}`);
+    }
 
     return (
         <div className="flex flex-col mt-10">
@@ -48,16 +48,17 @@ const Categories = () => {
                     <img 
                         src="../../../src/assets/Fill With Right Arrow (1).svg" 
                         width="50%"
-                        className={`btn btn-ghost btn-circle ${(startIndex + itemsPerPage >= categories.length) ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
+                        className={`btn btn-ghost btn-circle ${(startIndex + itemsPerPage >= allcatg.length) ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
                         alt="right"
                         onClick={nextSlide}
                     />
                 </div>
             </div>
             <div className="items-center grid grid-cols-3 md:grid-cols-6 gap-4">
-                {categories.slice(startIndex, startIndex + itemsPerPage).map((category, index) => (
-                    <div key={index} className="p-4 border rounded-md text-center">
-                        {category}
+                {allcatg.slice(startIndex, startIndex + itemsPerPage).map((category) => (
+                    <div key={category._id} className="p-4 border rounded-md text-center cursor-pointer hover:bg-primary" onClick={()=>handleCategory(category._id)} >
+                        <img src={category.image} alt={category.name} className="w-16 h-16 mx-auto mb-2" />
+                        {category.name}
                     </div>
                 ))}
             </div>
