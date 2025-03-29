@@ -1,6 +1,6 @@
 import CategoryProducts from '../components/ProductsOfCategory/CategoryProducts';
 
-const Products = () => {
+const ProductsByCatg= () => {
     return (
         <div>
         <CategoryProducts/>
@@ -8,4 +8,4 @@ const Products = () => {
     );
 }
 
-export default Products;
+export default ProductsByCatg;
