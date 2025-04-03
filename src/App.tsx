@@ -16,6 +16,7 @@ import AuthRedirectRoute from './components/ProtectedRoute/AuthRedirectRoute'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import { AuthProvider } from './context/AuthContext'
 import ProductsByCatg from './pages/ProductsByCatg'
+import ProductDetails from './pages/ProductDetails'
 
 function App() {
   const router = createBrowserRouter(
@@ -28,7 +29,8 @@ function App() {
           <Route path='/sendcode' element={<SendCode />} />
         </Route>
         <Route path='/' element={<Home />} />
-        <Route path='/products/:categoryId' element={<ProductsByCatg/>} />
+        <Route path='/category/:categoryId' element={<ProductsByCatg/>} />
+        <Route path='/products/:productId' element={<ProductDetails/>} />
         <Route path='/favourite' element={<Favourite />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/cart" element={<Cart />} />

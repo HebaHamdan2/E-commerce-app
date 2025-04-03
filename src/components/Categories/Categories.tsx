@@ -24,7 +24,7 @@ const Categories = () => {
         }
     };
     const handleCategory=(categoryId:string):void=>{
-        navigate(`/products/${categoryId}`);
+        navigate(`/category/${categoryId}`);
     }
 
     return (
