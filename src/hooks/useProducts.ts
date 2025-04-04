@@ -21,7 +21,8 @@ const UseProducts = () => {
             secure_url: product.mainImage.secure_url,
           },
           price:product.price,
-          reviews:product.reviews
+          reviews:product.reviews,
+          avgRating:product.avgRating
         }));
   
         setProducts(Products);

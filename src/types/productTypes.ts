@@ -25,6 +25,7 @@ interface Review {
     price: number;
     mainImage: MainImage;
     reviews: Review[];
+    avgRating:number
   }
   
   export interface ProductsResponse {
