@@ -1,14 +1,28 @@
 import { Link, useNavigate } from "react-router-dom";
 import UseProducts from "../../hooks/useProducts";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Products = () => {
     const { allproducts, getProducts } = UseProducts();
     const navigate = useNavigate();
+    const [favorites, setFavorites] = useState<string[]>([]);
 
     useEffect(() => {
         getProducts(1, 8);
+      const stored = localStorage.getItem("favorites");
+      if (stored) {
+        setFavorites(JSON.parse(stored));
+      }
     }, []);
+    const toggleFavorite = (productId: string) => {
+        const updatedFavorites = favorites.includes(productId)
+          ? favorites.filter((id) => id !== productId)
+          : [...favorites, productId];
+      
+        setFavorites(updatedFavorites);
+        localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+      };
+      
 
     const handleProduct = (productId: string): void => {
         navigate(`/products/${productId}`);
@@ -29,12 +43,23 @@ const Products = () => {
                         <div
                             key={product._id}
                             className="p-4   text-start cursor-pointer "
-                            onClick={() => handleProduct(product._id)}
+    
                         >
                             <div className="relative group">
-                            <div className="absolute top-2 right-2 flex flex-col items-center gap-2  ">
-  <img src="../../../src/assets/Fill Heart.svg" alt="fav"  />
-  <img src="../../../src/assets/Fill Eye.svg" alt="eye"  />
+                            <div className="absolute top-2 right-2 flex flex-col items-center gap-2">
+                            <img
+    src={
+      favorites.includes(product._id)
+        ? "../../../src/assets/Fill Heart (1).svg" // <-- filled heart
+        : "../../../src/assets/Fill Heart.svg"  // <-- empty heart
+    }
+    alt="fav"
+    className="cursor-pointer"
+    onClick={(e) => {
+      e.stopPropagation(); 
+      toggleFavorite(product._id);
+    }}
+  />  <img src="../../../src/assets/Fill Eye.svg" alt="eye"   onClick={() => handleProduct(product._id)} />
 </div>
 
 
