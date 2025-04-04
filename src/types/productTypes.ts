@@ -34,4 +34,9 @@ interface Review {
     total: number;
     products: Product[];
   }
+   
+  export interface ProductResponse {
+    message: string;
+    product: Product;
+  }
   

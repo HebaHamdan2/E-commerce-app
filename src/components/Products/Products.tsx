@@ -46,10 +46,11 @@ const Products = () => {
                     {allproducts.map((product) => (
                         <div
                             key={product._id}
-                            className="p-4   text-start cursor-pointer "
+                            className="p-4   text-start  "
     
                         >
                             <div className="relative group">
+                            
                             <div className="absolute top-2 right-2 flex flex-col items-center gap-2">
                             <img
     src={
@@ -63,7 +64,7 @@ const Products = () => {
       e.stopPropagation(); 
       toggleFavorite(product._id);
     }}
-  />  <img src="../../../src/assets/Fill Eye.svg" alt="eye"   onClick={() => handleProduct(product._id)} />
+  />  <img src="../../../src/assets/Fill Eye.svg" alt="eye"  className="cursor-pointer"  onClick={() => handleProduct(product._id)} />
 </div>
 
 
@@ -72,7 +73,7 @@ const Products = () => {
                                 alt="product"
                                 className="w-full h-52 object-cover mb-2 rounded"
                             />
-                              <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 group-hover:bg-opacity-100 top-40 transition-opacity h-10 rounded text-center pt-2 pb-2 text-white"onClick={()=>handleAddProduct(product._id,1)}  >Add To Cart</div>
+                              <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 group-hover:bg-opacity-100 top-40 transition-opacity h-10 rounded text-center pt-2 pb-2 cursor-pointer text-white"onClick={()=>handleAddProduct(product._id,1)}  >Add To Cart</div>
                       
                             </div>
                                   <div className="font-medium mb-1">{product.name}</div>
@@ -82,6 +83,9 @@ const Products = () => {
   {Array.from({ length: Math.min(product.avgRating, 5) }).map((_, i) => (
     <span key={i}><img src="../../../src/assets/Vector (5).svg" alt="star" /></span>
   ))}
+</div>
+<div className="text-primaryText opacity-50">
+    ({product.reviews.length})
 </div>
                             </div>
                         </div>
