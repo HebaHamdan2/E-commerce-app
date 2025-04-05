@@ -22,7 +22,15 @@ const UseProducts = () => {
           },
           price:product.price,
           reviews:product.reviews,
-          avgRating:product.avgRating
+          avgRating:product.avgRating,
+          slug:product.slug,
+          description:product.description
+         , stock:product.stock
+         , discount:product.discount,
+         finalPrice:product.finalPrice
+         , number_sellers:product.number_sellers
+         , subImages:product.subImages
+
         }));
   
         setProducts(Products);

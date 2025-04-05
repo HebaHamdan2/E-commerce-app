@@ -1,9 +1,10 @@
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import ProductDescription from "../components/Product/ProductDescription";
 import ProductReviews from "../components/Product/ProductReviews";
 
 const ProductDetails = () => {
-  const {productId}=useParams<{productId:string}>();
+const location = useLocation();
+const productId = location.state?.productId;
     return (
         <div className="wrapper">
       {!productId?<>loading</>:<ProductDescription productId={productId}/>}

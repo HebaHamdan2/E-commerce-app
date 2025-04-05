@@ -28,8 +28,8 @@ const Products = () => {
       }
       
 
-    const handleProduct = (productId: string): void => {
-        navigate(`/products/${productId}`);
+    const handleProduct = (productId: string,slug:string): void => {
+      navigate(`/products/${slug}`, { state: { productId } });
     };
 
     return (
@@ -64,7 +64,7 @@ const Products = () => {
       e.stopPropagation(); 
       toggleFavorite(product._id);
     }}
-  />  <img src="../../../src/assets/Fill Eye.svg" alt="eye"  className="cursor-pointer"  onClick={() => handleProduct(product._id)} />
+  />  <img src="../../../src/assets/Fill Eye.svg" alt="eye"  className="cursor-pointer"  onClick={() => handleProduct(product._id,product.slug)} />
 </div>
 
 

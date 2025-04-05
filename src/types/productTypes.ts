@@ -14,16 +14,24 @@ interface Review {
     __v: number;
   }
   
-  interface MainImage {
+  interface Image {
     public_id: string;
     secure_url: string;
   }
+ 
   
  export interface Product {
     _id: string;
     name: string;
+    slug:string;
+    description:string;
+    stock:number;
+    discount:number;
     price: number;
-    mainImage: MainImage;
+    finalPrice:number;
+    number_sellers:number;
+    mainImage: Image;
+    subImages:Image[];
     reviews: Review[];
     avgRating:number
   }

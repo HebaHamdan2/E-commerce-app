@@ -30,7 +30,7 @@ function App() {
         </Route>
         <Route path='/' element={<Home />} />
         <Route path='/category/:categoryId' element={<ProductsByCatg/>} />
-        <Route path='/products/:productId' element={<ProductDetails/>} />
+        <Route path='/products/:slug' element={<ProductDetails/>} />
         <Route path='/favourite' element={<Favourite />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/cart" element={<Cart />} />

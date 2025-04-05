@@ -4,7 +4,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 
 const UseSpecificProduct = () => {
-    const [productInfo,setProductInfo]=useState({});
+    const [productInfo,setProductInfo]=useState<Product>();
 
     const getProduct = async (productId:string): Promise<void> => {
         try {
