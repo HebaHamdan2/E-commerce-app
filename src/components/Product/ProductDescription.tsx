@@ -82,8 +82,27 @@ addProduct(productId,quentity);
   {/* Right Column (Info) */}
   <div className="w-full 2md:w-1/3">
     <h2 className="text-2xl font-semibold mb-4">{productInfo?.name}</h2>
-    <span className="text-primaryText opacity-50 text-sm">{productInfo?.avgRating}</span><span className="text-primaryText opacity-50 text-sm"> ({productInfo?.reviews.length}) | </span>{(productInfo?.stock ?? 0)>0?<span className="text-[#00FF66] text-sm"> In Stock</span>:<span className="text-sm text-primary"> Sold Out</span>}
-    <h3 className="text-primaryText text-2xl mt-4 mb-6">${productInfo?.price}</h3>
+    <div className="flex flex-row ">
+    {Array.from({ length: 5 }).map((_, i) => {
+    const rating = productInfo?.avgRating ?? 0;
+    return (
+      <img
+        key={i}
+        src={
+          rating >= i + 1
+            ? "../../../src/assets/Vector (5).svg"
+            : rating >= i + 0.5
+            ? "../../../src/assets/star-half-filled.svg"
+            : "../../../src/assets/Vector (6).svg"
+        }
+        alt="star"
+        className="w-4 h-4"
+      />
+    );
+  })}
+     <span className="text-primaryText opacity-50 text-sm"> ({productInfo?.reviews.length}) | </span> {(productInfo?.stock ?? 0)>0?<span className="text-[#00FF66] text-sm pl-1"> In Stock</span>:<span className="text-sm text-primary pl-1"> Sold Out</span>}
+
+      </div>    <h3 className="text-primaryText text-2xl mt-4 mb-6">${productInfo?.price}</h3>
     <p className="text-sm text-primaryText">{productInfo?.description}</p>
 
   {/* Quantity Controller */}
@@ -120,6 +139,9 @@ addProduct(productId,quentity);
     onClick={() => toggleFavorite(productId)}
     className="w-10 h-10 cursor-pointer"
   />
+</div>
+<div className="mt-10">
+  <img src="../../../src/assets/Frame 911.svg" alt="info" />
 </div>
 
    
