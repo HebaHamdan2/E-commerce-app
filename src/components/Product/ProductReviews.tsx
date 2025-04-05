@@ -38,9 +38,16 @@ return <div className="flex flex-col border rounded py-7 px-8">
     );
   })}
     </div>
-    <h3 className="font-bold text-xl pt-1 capitalize">{review.createdBy.userName}</h3>
+    <h3 className="font-bold text-xl pt-4 capitalize">{review.createdBy.userName}</h3>
     <p className="text-sm text-primaryText opacity-50 pt-3 pb-6">"{review.comment}"</p>
-<p className="text-sm text-primaryText opacity-50">Posted On {review.createdAt}</p>
+    <p className="text-sm text-primaryText opacity-50">
+  Posted On {new Date(review.createdAt).toLocaleDateString("en-US", {
+    year: "numeric",
+    day: "numeric",
+    month: "short",
+  })}
+</p>
+
 </div>
             })}
             </div>
