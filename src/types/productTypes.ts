@@ -47,4 +47,8 @@ interface Review {
     message: string;
     product: Product;
   }
-  
+  export interface ReviewResponse{
+message:string,
+review:Review,
+avgRating:number
+  }
