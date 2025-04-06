@@ -9,6 +9,8 @@ export interface SignUpFormData {
     user: any;
     logout: () => void;
     setUser: (user: any) => void; 
+    getuserId: () => void; 
+    userId:string;
     isAuthenticated: boolean;
   }
   

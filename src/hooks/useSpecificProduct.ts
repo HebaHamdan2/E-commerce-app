@@ -5,39 +5,71 @@ import toast from 'react-hot-toast';
 import AuthContext from '../context/AuthContext';
 
 const UseSpecificProduct = () => {
-    const [productInfo,setProductInfo]=useState<Product>();
+  const [productInfo, setProductInfo] = useState<Product>();
+  const auth = useContext(AuthContext);
 
-    let  auth  = useContext(AuthContext);
-    const getProduct = async (productId:string): Promise<void> => {
-        try {
-          const res = await axios.get<ProductResponse>(`https://apiecommerce-hblh.onrender.com/products/${productId}`);
-    
-          const product: Product= res.data.product;
-    
-          setProductInfo(product);
-        } catch (error) {
-          toast.error("Error fetching products");
-        }
+  const getProduct = async (productId: string): Promise<void> => {
+    try {
+      const res = await axios.get<ProductResponse>(`https://apiecommerce-hblh.onrender.com/products/${productId}`);
+      setProductInfo(res.data.product);
+    } catch (error) {
+      toast.error("Error fetching product");
+    }
+  };
+
+  const addReview = async (productId: string, comment: string, rating: number): Promise<void> => {
+    try {
+      const headers = {
+        authorization: `Heba__${auth?.user.token}`,
       };
-      const addReview=async(productId:string,comment:string,rating:number):Promise<void> =>{
-        let headers = {
-          authorization: `Heba__${auth?.user.token}`,
-        };
-  let data={
-      "comment":comment,
-      "rating":rating.toString()
-  }
-        try{
-const response=await axios.post<ReviewResponse>(`https://apiecommerce-hblh.onrender.com/review/${productId}`,data,{headers})
-if (response.data?.message === 'success') {
-  toast.success('Review added successfully!');
-} 
-        }catch(error:any){
-          toast.error(error?.response.data.message)
-        }
+      const data = {
+        comment,
+        rating: rating.toString(),
+      };
 
+      const response = await axios.post<ReviewResponse>(
+        `https://apiecommerce-hblh.onrender.com/review/${productId}`,
+        data,
+        { headers }
+      );
+
+      if (response.data?.message === 'success') {
+        toast.success('Review added successfully!');
+        await getProduct(productId); // Refresh product after adding review
       }
-    return {getProduct,productInfo,addReview}
-}
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || 'Error adding review');
+    }
+  };
+
+  const deleteReview = async (reviewId: string): Promise<void> => {
+    let headers = {
+      authorization: `Heba__${auth?.user.token}`,
+    };
+  
+    try {
+      const response = await axios.delete(
+        `https://apiecommerce-hblh.onrender.com/review/delete/${reviewId}`,
+        { headers }
+      );
+  
+      if (response.data?.message === 'Review deleted successfully') {
+        toast.success('Review deleted successfully');
+        if(productInfo){
+       getProduct(productInfo?._id)
+        }
+       
+        
+      }
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error?.response?.data?.message || 'Error deleting review');
+    }
+  };
+  
+  
+
+  return { getProduct, productInfo, addReview, deleteReview };
+};
 
 export default UseSpecificProduct;

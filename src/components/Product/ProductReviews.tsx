@@ -1,27 +1,61 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import UseSpecificProduct from "../../hooks/useSpecificProduct";
+import AuthContext from "../../context/AuthContext";
+import toast from "react-hot-toast";
 
 type Props = {
   productId: string;
 };
 
 const ProductReviews = ({ productId }: Props) => {
-  const { getProduct, productInfo, addReview } = UseSpecificProduct(); // Assuming `addReview` exists in the hook
-
+  const { getProduct, productInfo, addReview ,deleteReview} = UseSpecificProduct(); 
+  const auth = useContext(AuthContext);
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
 
   useEffect(() => {
     getProduct(productId);
+    auth?.getuserId?.(); 
   }, []);
 
   const handleSubmit = async () => {
-    if (!rating || !comment) return alert("Please add both rating and comment");
+    if (!rating || !comment.trim()) {
+      return toast.success("Please provide both a rating and a comment");
+    }
 
-    await addReview(productId,  comment, rating ); 
-    getProduct(productId); // refresh reviews
+    await addReview(productId, comment, rating); 
+    await getProduct(productId); // Refresh reviews
     setRating(0);
     setComment("");
+  };
+  const handleDelete = (reviewId:string) => {
+    toast.custom((t) => (
+      <div className="bg-white p-4 rounded shadow-md border border-gray-200 w-[300px]">
+        <p className="text-sm text-gray-700 mb-4">Are you sure you want to delete this review?</p>
+        <div className="flex justify-end gap-2">
+          <button
+            className="text-sm px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+            onClick={() => toast.dismiss(t.id)}
+          >
+            Cancel
+          </button>
+          <button
+            className="text-sm px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+            onClick={async () => {
+              toast.dismiss(t.id);
+              try {
+                await deleteReview(reviewId);
+                
+              } catch (error) {
+                toast.error("Failed to delete review.");
+              }
+            }}
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    ));
   };
 
   return (
@@ -32,35 +66,37 @@ const ProductReviews = ({ productId }: Props) => {
           Rating & Reviews [{productInfo?.reviews.length}]
         </h2>
       </div>
+
       {/* Existing Reviews */}
       <div className="flex flex-col gap-6">
         {productInfo?.reviews.map((review) => (
-          <div
-            key={review._id}
-            className="flex flex-col border rounded py-7 px-8"
-          >
+          <div key={review._id} className="flex flex-col border rounded py-7 px-8">
             <div className="flex flex-row mb-2">
-              {Array.from({ length: 5 }).map((_, i) => {
-                const rating = review?.rating ?? 0;
-                return (
-                  <img
-                    key={i}
-                    src={
-                      rating >= i + 1
-                        ? "../../../src/assets/Vector (5).svg"
-                        : rating >= i + 0.5
-                        ? "../../../src/assets/star-half-filled.svg"
-                        : "../../../src/assets/Vector (6).svg"
-                    }
-                    alt="star"
-                    className="w-4 h-4"
-                  />
-                );
-              })}
+              {Array.from({ length: 5 }).map((_, i) => (
+                <img
+                  key={i}
+                  src={
+                    review.rating >= i + 1
+                      ? "../../../src/assets/Vector (5).svg"
+                      : review.rating >= i + 0.5
+                      ? "../../../src/assets/star-half-filled.svg"
+                      : "../../../src/assets/Vector (6).svg"
+                  }
+                  alt="star"
+                  className="w-4 h-4"
+                />
+              ))}
             </div>
-            <h3 className="font-bold text-xl capitalize">
-              {review.createdBy.userName}
-            </h3>
+            <div className="flex flex-row justify-between">
+            <h3 className="font-bold text-xl capitalize">{review.createdBy.userName}</h3>
+            {review.createdBy._id === auth?.userId && (
+              <div className="flex flex-row gap-4 mt-2 text-sm text-primary">
+                <button>Edit</button>
+                <button onClick={()=>handleDelete(review._id)}>Delete</button>
+              </div>
+            )}
+            </div>
+           
             <p className="text-sm text-primaryText opacity-50 pt-3 pb-6">
               "{review.comment}"
             </p>
@@ -72,11 +108,13 @@ const ProductReviews = ({ productId }: Props) => {
                 month: "short",
               })}
             </p>
+            
           </div>
         ))}
       </div>
-       {/* Add Review Form */}
-       <div className="border rounded p-6 my-10">
+
+      {/* Add Review Form */}
+      <div className="border rounded p-6 my-10">
         <h3 className="text-lg font-semibold mb-4">Leave a Review</h3>
         <div className="flex items-center gap-2 mb-4">
           {[1, 2, 3, 4, 5].map((num) => (
@@ -106,7 +144,6 @@ const ProductReviews = ({ productId }: Props) => {
           Submit Review
         </button>
       </div>
-
     </>
   );
 };
