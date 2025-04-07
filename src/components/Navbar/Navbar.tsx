@@ -27,7 +27,7 @@ const Navbar = () => {
 >
         <ul className="flex flex-col 2md:flex-row gap-4 items-center justify-center">
           <li role="button" className="btn btn-ghost btn-circle">
-            <Link to={'/favourite'}>
+            <Link to={'/whishlist'}>
             <img src="../../../src/assets/Vector.svg" alt="fav" />
             </Link>
             

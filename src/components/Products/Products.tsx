@@ -2,27 +2,32 @@ import { Link, useNavigate } from "react-router-dom";
 import UseProducts from "../../hooks/useProducts";
 import { useEffect, useState } from "react";
 import UseAddToCart from "../../hooks/useAddToCart";
+import { Product } from "../../types/productTypes";
 
 const Products = () => {
     const { allproducts, getProducts } = UseProducts();
     const navigate = useNavigate();
-    const [favorites, setFavorites] = useState<string[]>([]);
+    const [favorites, setFavorites] = useState<Product[]>([]);
     const {addProduct}=UseAddToCart();
     useEffect(() => {
-        getProducts(1, 8);
+      getProducts(1, 8);
       const stored = localStorage.getItem("favorites");
       if (stored) {
-        setFavorites(JSON.parse(stored));
+        setFavorites(JSON.parse(stored) as Product[]);
       }
     }, []);
-    const toggleFavorite = (productId: string) => {
-        const updatedFavorites = favorites.includes(productId)
-          ? favorites.filter((id) => id !== productId)
-          : [...favorites, productId];
-      
-        setFavorites(updatedFavorites);
-        localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-      };
+    
+    const toggleFavorite = (product: Product) => {
+      const isFavorite = favorites.some((fav) => fav._id === product._id);
+    
+      const updatedFavorites = isFavorite
+        ? favorites.filter((fav) => fav._id !== product._id)
+        : [...favorites, product];
+    
+      setFavorites(updatedFavorites);
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    };
+    
       const handleAddProduct=(productId:string,quant:number):void=>{
         addProduct(productId,quant)
       }
@@ -53,18 +58,19 @@ const Products = () => {
                             
                             <div className="absolute top-2 right-2 flex flex-col items-center gap-2">
                             <img
-    src={
-      favorites.includes(product._id)
-        ? "../../../src/assets/Fill Heart (1).svg" // <-- filled heart
-        : "../../../src/assets/Fill Heart.svg"  // <-- empty heart
-    }
-    alt="fav"
-    className="cursor-pointer"
-    onClick={(e) => {
-      e.stopPropagation(); 
-      toggleFavorite(product._id);
-    }}
-  />  <img src="../../../src/assets/Fill Eye.svg" alt="eye"  className="cursor-pointer"  onClick={() => handleProduct(product._id,product.slug)} />
+  src={
+    favorites.some((fav) => fav._id === product._id)
+      ? "../../../src/assets/Fill Heart (1).svg"
+      : "../../../src/assets/Fill Heart.svg"
+  }
+  alt="fav"
+  className="cursor-pointer"
+  onClick={(e) => {
+    e.stopPropagation();
+    toggleFavorite(product);
+  }}
+/>
+<img src="../../../src/assets/Fill Eye.svg" alt="eye"  className="cursor-pointer"  onClick={() => handleProduct(product._id,product.slug)} />
 </div>
 
 

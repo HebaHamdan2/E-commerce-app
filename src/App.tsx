@@ -8,7 +8,6 @@ import SendCode from './pages/SendCode'
 import NotFound from './pages/NotFound'
 import AllReviews from './pages/AllReviews'
 import AllOrders from './pages/AllOrders'
-import Favourite from './pages/Favourite'
 import Cart from './pages/Cart'
 import { Toaster } from 'react-hot-toast'
 import AuthRedirectRoute from './components/ProtectedRoute/AuthRedirectRoute'
@@ -17,6 +16,7 @@ import { AuthProvider } from './context/AuthContext'
 import ProductsByCatg from './pages/ProductsByCatg'
 import ProductDetails from './pages/ProductDetails'
 import ManageUserAccount from './pages/ManageUserAccount'
+import WhishList from './pages/WhishList'
 
 function App() {
   const router = createBrowserRouter(
@@ -31,7 +31,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/category/:categoryId' element={<ProductsByCatg/>} />
         <Route path='/products/:slug' element={<ProductDetails/>} />
-        <Route path='/favourite' element={<Favourite />} />
+        <Route path='/whishlist' element={<WhishList/>} />
         <Route element={<ProtectedRoute />}>
           <Route path="/cart" element={<Cart />} />
           <Route path='/account' element={<ManageUserAccount />} />
