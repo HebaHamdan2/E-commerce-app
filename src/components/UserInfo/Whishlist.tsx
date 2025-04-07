@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { Product } from "../../types/productTypes";
 import UseAddToCart from "../../hooks/useAddToCart";
 
@@ -38,8 +38,8 @@ const navigate=useNavigate()
       <div className="flex flex-row mt-24 text-xl font-normal mb-16">
         Wishlist ({favorites.length})
       </div>
-
-      <div className="flex flex-col">
+{favorites.length>0?
+    <div className="flex flex-col">
         <div className="items-center grid grid-cols-2 md:grid-cols-4 gap-6 mb-14 mt-14 w-full max-w-7xl">
           {favorites.map((product) => (
             <div
@@ -92,7 +92,12 @@ const navigate=useNavigate()
           ))}
         </div>
 
+      </div>:
+      <div className="flex flex-row justify-center align-middle mb-96 text-4xl font-semibold">
+        No Products Added to Your Whashlist Yet!
       </div>
+      }
+      
     </>
   );
 };

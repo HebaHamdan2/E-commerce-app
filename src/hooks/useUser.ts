@@ -3,11 +3,13 @@ import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import AuthContext from "../context/AuthContext";
 import { User, userResponse } from "../types/authTypes";
+import { Review, ReviewsResponse } from "../types/productTypes";
 
 
 const UseUser = () => {
     const auth = useContext(AuthContext);
     let[userInfo,setUserInfo]=useState<User>()
+    let [reviews,setReviews]=useState<Review[]|null>()
     const getUserInfo = async (): Promise<void> => {
       try {
         const headers = {
@@ -77,9 +79,23 @@ const UseUser = () => {
           toast.error(error.response.data.message);
         }
       };
-      
+      const getAllReviews=async():Promise<void>=>{
+        
+          const headers = {
+              authorization: `Heba__${auth?.user.token}`,
+            };
+          const res = await axios.get<ReviewsResponse>(`https://apiecommerce-hblh.onrender.com/review/get`,{headers});
+         if(res.data?.reviews){
+          setReviews(res.data?.reviews);
+         }else{
+          setReviews(null)
+          toast.error("No Reviews Found")
+         }
+         
+        
+      }
 
-    return {userInfo,getUserInfo,updateInfo,updatePassword}
+    return {userInfo,getUserInfo,updateInfo,updatePassword,getAllReviews,reviews}
 }
 
 export default UseUser;

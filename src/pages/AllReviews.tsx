@@ -1,7 +1,9 @@
+import ReviewsList from "../components/UserInfo/ReviewsList";
+
 const AllReviews = () => {
     return (
         <div className="wrapper">
-            reviews
+            <ReviewsList/>
         </div>
     );
 }

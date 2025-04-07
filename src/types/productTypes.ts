@@ -1,4 +1,4 @@
-interface Review {
+export interface Review {
     _id: string;
     comment: string;
     rating: number;
@@ -11,7 +11,6 @@ interface Review {
     orderId: string;
     createdAt: string;
     updatedAt: string;
-    __v: number;
   }
   
   interface Image {
@@ -52,3 +51,7 @@ message:string,
 review:Review,
 avgRating:number
   }
+export interface ReviewsResponse{
+  message:string,
+reviews?:Review[],
+}
