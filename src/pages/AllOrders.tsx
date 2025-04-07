@@ -1,7 +1,7 @@
 const AllOrders = () => {
     return (
         <div className="wrapper">
-            orders
+           <AllOrders/>
         </div>
     );
 }

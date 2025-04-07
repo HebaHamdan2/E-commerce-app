@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import UseProducts from "../../hooks/useProducts";
 import { useEffect, useState } from "react";
 import UseAddToCart from "../../hooks/useAddToCart";
@@ -99,12 +99,7 @@ const Products = () => {
                 </div>
 
                 <div>
-                    <Link
-                        to="/products"
-                        className="text-base font-medium text-white bg-primary rounded py-4 px-12"
-                    >
-                        View All Products
-                    </Link>
+                  
                 </div>
             </div>
         </div>
