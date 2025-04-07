@@ -6,7 +6,6 @@ import Login from './pages/Login'
 import ResetPassword from './pages/ResetPassword'
 import SendCode from './pages/SendCode'
 import NotFound from './pages/NotFound'
-import UserAccount from './pages/UserAccount'
 import AllReviews from './pages/AllReviews'
 import AllOrders from './pages/AllOrders'
 import Favourite from './pages/Favourite'
@@ -17,6 +16,7 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import { AuthProvider } from './context/AuthContext'
 import ProductsByCatg from './pages/ProductsByCatg'
 import ProductDetails from './pages/ProductDetails'
+import ManageUserAccount from './pages/ManageUserAccount'
 
 function App() {
   const router = createBrowserRouter(
@@ -34,7 +34,7 @@ function App() {
         <Route path='/favourite' element={<Favourite />} />
         <Route element={<ProtectedRoute />}>
           <Route path="/cart" element={<Cart />} />
-          <Route path='/account' element={<UserAccount />} />
+          <Route path='/account' element={<ManageUserAccount />} />
           <Route path='/reviews' element={<AllReviews />} />
           <Route path='/orders' element={<AllOrders />} />
         </Route>

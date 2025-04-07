@@ -27,3 +27,29 @@ export interface SignUpFormData {
     password: string;
     code: string;
   }
+  export interface userResponse{
+message:string,
+user:User
+  }
+    
+  interface Image {
+    public_id: string;
+    secure_url: string;
+  }
+ 
+  export interface User{
+    profilePic:Image | null;
+    _Id:string;
+    userName:string;
+    email:string;
+    password:string;
+    confirmEmail:boolean;
+    status:string;
+    role:string;
+    address:string;
+    phone:string;
+    gender:"Female" | "Male";
+    sendCode:string |null;
+    createdAt:string;
+    updatedAt:string
+  }
