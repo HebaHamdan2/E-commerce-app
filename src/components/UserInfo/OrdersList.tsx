@@ -88,7 +88,13 @@ const OrdersList = () => {
               <div className="space-y-4">
                 {order.products.map((orderedProduct, i) => (
                   <div key={i} className="flex items-center gap-4">
-                    
+                   {orderedProduct.productId?.mainImage?.secure_url && (
+        <img
+          src={orderedProduct.productId.mainImage.secure_url}
+          alt={orderedProduct.productId.name}
+          className="w-16 h-16 object-cover rounded"
+        />
+      )}
                     <div>
                       <p className="text-sm text-gray-500">${orderedProduct.unitPrice}</p>
                       <p className="text-sm text-gray-500">

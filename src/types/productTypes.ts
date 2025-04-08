@@ -7,7 +7,7 @@ export interface Review {
       _id: string;
       userName: string;
     };
-    productId: string;
+    productId: string | Product;
     orderId: string;
     createdAt: string;
     updatedAt: string;
@@ -56,7 +56,7 @@ export interface ReviewsResponse{
 reviews?:Review[],
 }
 export interface OrderedProduct{
-  productId: string,
+  productId: Product,
   quantity: number,
   unitPrice: number,
   finalPrice: number,
