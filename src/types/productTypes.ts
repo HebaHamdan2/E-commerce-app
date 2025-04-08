@@ -80,3 +80,7 @@ export interface OrdersResponse{
   message:string,
   orders:Order[]
 }
+export interface CancelOrderResponse{
+  message:string,
+  order:Order
+}

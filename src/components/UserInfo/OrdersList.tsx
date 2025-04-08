@@ -1,27 +1,53 @@
 import { useEffect, useState } from "react";
 import UseUser from "../../hooks/useUser";
+import toast from "react-hot-toast";
 
 const OrdersList = () => {
   const { getAllOrders, orders } = UseUser();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-
+  let{cancelOrder}=UseUser()
+  const fetchOrders = async () => {
+    setLoading(true);
+    setError(null); 
+    try {
+      await getAllOrders(); 
+    } catch (err) {
+      setError("Failed to load orders.");
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchOrders = async () => {
-      setLoading(true);
-      setError(null); 
-
-      try {
-        await getAllOrders(); 
-      } catch (err) {
-        setError("Failed to load orders.");
-      } finally {
-        setLoading(false);
-      }
-    };
 
     fetchOrders();
-  }, []); 
+  }, []);
+  const handleCancel = (orderId: string) => {
+    toast.custom((t) => (
+      <div className="bg-white p-4 rounded shadow-md border border-gray-200 w-[300px]">
+        <p className="text-sm text-gray-700 mb-4">Are you sure you want to cancel your order?</p>
+        <div className="flex justify-end gap-2">
+          <button
+            className="text-sm px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+            onClick={() => toast.dismiss(t.id)}
+          >
+            Cancel
+          </button>
+          <button
+            className="text-sm px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+            onClick={async () => {
+              toast.dismiss(t.id);
+                await cancelOrder(orderId);
+              fetchOrders()
+            }}
+          >
+            Cancel Order
+          </button>
+        </div>
+      </div>
+    ));
+  };
+   
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -44,7 +70,7 @@ const OrdersList = () => {
   }
 
   return (
-    <div className="pt-24 max-w-6xl mx-auto px-4">
+    <div className="pt-24 max-w-6xl mx-auto px-4 mb-96">
       <h2 className="text-2xl font-semibold mb-10">
         Orders ({orders?.length || 0})
       </h2>
@@ -82,7 +108,8 @@ const OrdersList = () => {
               >
                 {order.status.replace("_", " ")}
               </span>
-            </div>
+              {order.status==="pending"&& <p className="text-primary px-4 py-1 bg-red-200 rounded-full  text-sm font-semibold  mt-3 cursor-pointer items-center" onClick={()=>handleCancel(order._id)}>Cancel</p>
+      }          </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
@@ -139,7 +166,7 @@ const OrdersList = () => {
       </div>
 
       {orders?.length === 0 && (
-        <div className="text-center mt-10 text-gray-500">
+        <div className="text-center mt-10 text-gray-500 mb-96">
           You haven’t placed any orders yet.
         </div>
       )}

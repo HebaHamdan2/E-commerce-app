@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import AuthContext from "../context/AuthContext";
 import { User, userResponse } from "../types/authTypes";
-import { Order, OrdersResponse, Review, ReviewsResponse } from "../types/productTypes";
+import { CancelOrderResponse, Order, OrdersResponse, Review, ReviewsResponse } from "../types/productTypes";
 
 
 const UseUser = () => {
@@ -101,7 +101,7 @@ const UseUser = () => {
             authorization: `Heba__${auth?.user.token}`,
           };
         const res = await axios.get<OrdersResponse>(`https://apiecommerce-hblh.onrender.com/order`,{headers});
-        console.log(res)
+ 
        if(res.data?.orders){
         setOrders(res.data?.orders);
        }else{
@@ -111,8 +111,21 @@ const UseUser = () => {
        
       
     }
+    const cancelOrder=async(orderId:string):Promise<void>=>{
+ try{
+  const headers = {
+    Authorization: `Heba__${auth?.user.token}`,
+  };
+const res = await axios.patch<CancelOrderResponse>(`https://apiecommerce-hblh.onrender.com/order/cancel/${orderId}`,{},{headers});
+if(res.data?.message==="Success"){
+toast.success("Your Order Canceled Successfully");
+}
+console.log(res)
+ }catch (error:any) {
+  toast.error(error.response.data.message||"Error Canceled Your Order");}     
+    }
 
-    return {userInfo,getUserInfo,updateInfo,updatePassword,getAllReviews,reviews,getAllOrders,orders}
+    return {userInfo,getUserInfo,updateInfo,updatePassword,getAllReviews,reviews,getAllOrders,orders,cancelOrder}
 }
 
 export default UseUser;
