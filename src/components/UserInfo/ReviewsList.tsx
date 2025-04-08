@@ -42,8 +42,8 @@ const ReviewsList = () => {
     ));
   };
 
-  const handleReview = (productId: string, slug: string) => {
-    navigate(`/products/${slug}`, { state: { productId } });
+  const handleReview = (productId: string, slug: string,categoryId:string) => {
+    navigate(`/products/${categoryId}/${slug}`, { state: { productId } });
   };
 
   return (
@@ -109,7 +109,7 @@ const ReviewsList = () => {
                           alt="eye"
                           className="cursor-pointer"
                           onClick={() =>
-                            handleReview(product._id, product.slug)
+                            handleReview(product._id, product.slug,product.categoryId)
                           }
                         />
                       )}

@@ -29,7 +29,8 @@ const UseProducts = () => {
          , discount:product.discount,
          finalPrice:product.finalPrice
          , number_sellers:product.number_sellers
-         , subImages:product.subImages
+         , subImages:product.subImages,
+         categoryId:product.categoryId
 
         }));
   

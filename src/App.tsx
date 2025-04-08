@@ -29,8 +29,8 @@ function App() {
           <Route path='/sendcode' element={<SendCode />} />
         </Route>
         <Route path='/' element={<Home />} />
-        <Route path='/category/:categoryId' element={<ProductsByCatg/>} />
-        <Route path='/products/:slug' element={<ProductDetails/>} />
+        <Route path='/products/:categoryId' element={<ProductsByCatg/>} />
+        <Route path='/products/:categoryId/:slug' element={<ProductDetails/>} />
         <Route path='/whishlist' element={<WhishList/>} />
         <Route element={<ProtectedRoute />}>
           <Route path="/cart" element={<Cart />} />

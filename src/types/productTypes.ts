@@ -30,6 +30,7 @@ export interface Review {
     finalPrice:number;
     number_sellers:number;
     mainImage: Image;
+    categoryId:string;
     subImages:Image[];
     reviews: Review[];
     avgRating:number
@@ -83,4 +84,8 @@ export interface OrdersResponse{
 export interface CancelOrderResponse{
   message:string,
   order:Order
+}
+export interface  CategoryProductsResponse{
+  message:string,
+  products:Product[]
 }
