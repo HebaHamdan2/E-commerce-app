@@ -3,13 +3,14 @@ import { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import AuthContext from "../context/AuthContext";
 import { User, userResponse } from "../types/authTypes";
-import { Review, ReviewsResponse } from "../types/productTypes";
+import { Order, OrdersResponse, Review, ReviewsResponse } from "../types/productTypes";
 
 
 const UseUser = () => {
     const auth = useContext(AuthContext);
     let[userInfo,setUserInfo]=useState<User>()
     let [reviews,setReviews]=useState<Review[]|null>()
+    let [orders,setOrders]=useState<Order[]|null>()
     const getUserInfo = async (): Promise<void> => {
       try {
         const headers = {
@@ -94,8 +95,24 @@ const UseUser = () => {
          
         
       }
+      const getAllOrders=async():Promise<void>=>{
+        
+        const headers = {
+            authorization: `Heba__${auth?.user.token}`,
+          };
+        const res = await axios.get<OrdersResponse>(`https://apiecommerce-hblh.onrender.com/order`,{headers});
+        console.log(res)
+       if(res.data?.orders){
+        setOrders(res.data?.orders);
+       }else{
+        setOrders(null)
+        toast.error("No Orders Found")
+       }
+       
+      
+    }
 
-    return {userInfo,getUserInfo,updateInfo,updatePassword,getAllReviews,reviews}
+    return {userInfo,getUserInfo,updateInfo,updatePassword,getAllReviews,reviews,getAllOrders,orders}
 }
 
 export default UseUser;

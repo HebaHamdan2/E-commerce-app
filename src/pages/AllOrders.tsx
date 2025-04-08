@@ -1,7 +1,9 @@
+import OrdersList from "../components/UserInfo/OrdersList";
+
 const AllOrders = () => {
     return (
         <div className="wrapper">
-           <AllOrders/>
+        <OrdersList/>
         </div>
     );
 }

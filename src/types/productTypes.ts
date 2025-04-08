@@ -55,3 +55,28 @@ export interface ReviewsResponse{
   message:string,
 reviews?:Review[],
 }
+export interface OrderedProduct{
+  productId: string,
+  quantity: number,
+  unitPrice: number,
+  finalPrice: number,
+  _id: string
+}
+export interface Order{
+_id:string,
+userId:string,
+products:OrderedProduct[],
+finalPrice:number,
+phoneNumber:string,
+address:string,
+couponName:string,
+paymentType:string,
+createdAt:string,
+updatedAt:string,
+status:"pending"|"cancelled"| "confirmed"| "on_way"|"delivered",
+}
+
+export interface OrdersResponse{
+  message:string,
+  orders:Order[]
+}
