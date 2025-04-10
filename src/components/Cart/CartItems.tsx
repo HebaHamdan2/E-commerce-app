@@ -7,7 +7,7 @@ import UseCart from "../../hooks/useCart";
 
 const CartItems = () => {
   const cart = useSelector((state: RootState) => state.cart.cartItems);
-  const {getCart,removeItem}=UseCart()
+  const {getCart,removeItem,removeItems}=UseCart()
   const dispatch = useDispatch();
   const [coupon, setCoupon] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
@@ -118,6 +118,7 @@ const CartItems = () => {
             </tbody>
           </table>
         </div>
+ 
 
         {/* Cart Summary */}
         <div className="bg-white shadow-lg rounded-xl p-6 border space-y-4">
@@ -163,6 +164,12 @@ const CartItems = () => {
           <button className="w-full bg-primary text-white py-2 rounded-lg hover:bg-gray-800 transition">
             Checkout
           </button>
+          <button
+  className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition"
+  onClick={() => removeItems()}
+>
+  Clear Cart
+</button>
         </div>
       </div>
     </>
