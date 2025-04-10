@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import UseCategories from '../../hooks/useCtegories';
 import { Product } from '../../types/productTypes';
-import UseAddToCart from '../../hooks/useAddToCart';
+import UseAddToCart from '../../hooks/useCart';
 
 const CategoryProducts = () => {
     const { categoryId } = useParams();

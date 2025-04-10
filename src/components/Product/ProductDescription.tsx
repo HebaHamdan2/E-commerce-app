@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import UseSpecificProduct from "../../hooks/useSpecificProduct";
 import { Link } from "react-router-dom";
-import UseAddToCart from "../../hooks/useAddToCart";
+import UseAddToCart from "../../hooks/useCart";
 import { Product } from "../../types/productTypes";
 
 type Props = {

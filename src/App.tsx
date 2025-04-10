@@ -17,6 +17,8 @@ import ProductsByCatg from './pages/ProductsByCatg'
 import ProductDetails from './pages/ProductDetails'
 import ManageUserAccount from './pages/ManageUserAccount'
 import WhishList from './pages/WhishList'
+import { Provider } from 'react-redux'
+import { store } from './app/store'
 
 function App() {
   const router = createBrowserRouter(
@@ -44,11 +46,10 @@ function App() {
     )
   )
   return (
-    <>
+    <> 
     <AuthProvider>
+    <Provider store={store}>
     <RouterProvider router={router} />
-    </AuthProvider>
-   
        <Toaster 
        toastOptions={{
         // Define default options
@@ -70,6 +71,10 @@ function App() {
         },
       }}
        />
+
+    </Provider>
+    </AuthProvider>
+   
     </>
   )
 }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import {  useNavigate } from "react-router-dom";
 import { Product } from "../../types/productTypes";
-import UseAddToCart from "../../hooks/useAddToCart";
+import UseAddToCart from "../../hooks/useCart";
 
 const Wishlist = () => {
   const [favorites, setFavorites] = useState<Product[]>([]);
