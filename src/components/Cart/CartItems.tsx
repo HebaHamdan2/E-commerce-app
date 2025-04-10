@@ -125,7 +125,7 @@ const CartItems = () => {
             />
             <button
               onClick={handleApplyCoupon}
-              className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition"
+              className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition"
             >
               Apply
             </button>
@@ -152,7 +152,7 @@ const CartItems = () => {
             <span className="text-green-600">${finalTotal.toFixed(2)}</span>
           </p>
 
-          <button className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition">
+          <button className="w-full bg-primary text-white py-2 rounded-lg hover:bg-gray-800 transition">
             Checkout
           </button>
         </div>
