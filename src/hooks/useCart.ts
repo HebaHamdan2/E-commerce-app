@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import AuthContext from '../context/AuthContext';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import { addToCart, ProductInfo, setCart } from '../features/cart/cartSlice';
+import { addToCart, ProductInfo, removeFromCart, setCart } from '../features/cart/cartSlice';
 import { CartItem } from '../features/cart/cartSlice';
 
 const UseCart = () => {
@@ -70,8 +70,29 @@ const UseCart = () => {
       toast.error(err.response?.data?.message || 'An error occurred.');
     }
   };
+  const removeItem=async(productId:string):Promise<void>=>{
+    if (!auth?.user?.token) return;
+    const headers = {
+      authorization: `Heba__${auth?.user.token}`,
+    };
+    const data={
+      productId:productId
+    }
+    try {
+      const response = await axios.patch('https://apiecommerce-hblh.onrender.com/cart/removeItem',data,{
+        headers,
+      });
 
-  return { addProduct, getCart };
+      if (response.data?.message === 'Item removed successfully') {
+      toast.success("Item removed successfully")
+        dispatch(removeFromCart(productId));
+      }
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || 'An error occurred.');
+    }
+  }
+
+  return { addProduct, getCart,removeItem };
 };
 
 export default UseCart;
