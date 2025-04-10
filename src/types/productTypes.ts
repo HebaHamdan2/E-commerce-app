@@ -89,3 +89,8 @@ export interface  CategoryProductsResponse{
   message:string,
   products:Product[]
 }
+export interface OrderData {
+  address?: string;
+  phone?: string;
+  couponName?: string;
+}

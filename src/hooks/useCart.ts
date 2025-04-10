@@ -5,11 +5,13 @@ import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { addToCart, clearCart, ProductInfo, removeFromCart, setCart, updateQuantity } from '../features/cart/cartSlice';
 import { CartItem } from '../features/cart/cartSlice';
+import { useNavigate } from 'react-router-dom';
+import { OrderData } from '../types/productTypes';
 
 const UseCart = () => {
   const auth = useContext(AuthContext);
   const dispatch = useDispatch();
-
+  const navigate=useNavigate()
   const addProduct = async (product: ProductInfo, quantity: number = 1) => {
     const headers = {
       authorization: `Heba__${auth?.user.token}`,
@@ -131,8 +133,29 @@ const UseCart = () => {
       toast.error(err.response?.data?.message || 'An error occurred.');
     }
   } 
+  const createOrder=async(data:OrderData)=>{
+    if (!auth?.user?.token) return;
+    const headers = {
+      authorization: `Heba__${auth?.user.token}`,
+    };
+    try {
+      const response = await axios.post('https://apiecommerce-hblh.onrender.com/order/create/',data,{
+        headers,
+      });
 
-  return { addProduct, getCart,removeItem ,removeItems,updateQuant};
+      if (response.data?.message === 'Success') {
+        toast.success("Order created successfully!");
+        navigate("/orders"); 
+        dispatch(clearCart())
+      }
+    } catch (error: any) {
+      toast.error(
+      error.response?.data?.message || "Failed to create order"
+    );
+    }
+  }
+
+  return { addProduct, getCart,removeItem ,removeItems,updateQuant,createOrder};
 };
 
 export default UseCart;
