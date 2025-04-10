@@ -34,7 +34,7 @@ const Products = () => {
       console.error("Product ID is missing!");
       return;
     }
-    await addProduct(product, quantity); // Pass the product._id and quantity to addProduct
+    await addProduct(product, quantity); 
   };
 
   const handleProduct = (productId: string, slug: string, categoryId: string): void => {

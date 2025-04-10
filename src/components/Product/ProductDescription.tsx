@@ -23,10 +23,13 @@ const ProductDescription = ({ productId }: Props) => {
       setFavorites(JSON.parse(stored));
     }
   }, [productId]);
-  
 
-  const handleAddToCart = () => {
-    addProduct(productId, quantity);
+  const handleAddProduct = async (product: Product, quantity: number) => {
+    if (!product._id) {
+      console.error("Product ID is missing!");
+      return;
+    }
+    await addProduct(product, quantity); 
   };
 
   const handleDecrement = () => {
@@ -48,7 +51,13 @@ const ProductDescription = ({ productId }: Props) => {
     setFavorites(updatedFavorites);
     localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
   };
-  
+
+  // Ensure productInfo is loaded before rendering buttons
+  const handleAddToCartClick = () => {
+    if (productInfo) {
+      handleAddProduct(productInfo, quantity);
+    }
+  };
 
   return (
     <>
@@ -144,9 +153,7 @@ const ProductDescription = ({ productId }: Props) => {
               src="../../../src/assets/minus.svg"
               alt="minus"
               onClick={handleDecrement}
-              className={`w-10 h-10 ${
-                quantity > 1 ? "cursor-pointer" : "cursor-not-allowed"
-              }`}
+              className={`w-10 h-10 ${quantity > 1 ? "cursor-pointer" : "cursor-not-allowed"}`}
             />
             <p className="text-primaryText text-xl font-medium px-6">
               {quantity}
@@ -155,11 +162,7 @@ const ProductDescription = ({ productId }: Props) => {
               src="../../../src/assets/plus.svg"
               alt="plus"
               onClick={handleIncrement}
-              className={`w-10 h-10 ${
-                quantity < (productInfo?.stock ?? 0)
-                  ? "cursor-pointer"
-                  : "cursor-not-allowed"
-              }`}
+              className={`w-10 h-10 ${quantity < (productInfo?.stock ?? 0) ? "cursor-pointer" : "cursor-not-allowed"}`}
             />
           </div>
 
@@ -167,20 +170,19 @@ const ProductDescription = ({ productId }: Props) => {
             <img
               src="../../../src/assets/Button.svg"
               alt="add"
-              onClick={handleAddToCart}
+              onClick={handleAddToCartClick}
               className="w-full sm:w-auto max-w-xs cursor-pointer"
             />
             <img
-  src={
-    favorites.some((fav) => fav._id === productInfo?._id)
-      ? "../../../src/assets/Frame 904 (1).svg"
-      : "../../../src/assets/Frame 904.svg"
-  }
-  alt="fav"
-  onClick={() => toggleFavorite(productInfo)}
-  className="w-10 h-10 cursor-pointer"
-/>
-
+              src={
+                favorites.some((fav) => fav._id === productInfo?._id)
+                  ? "../../../src/assets/Frame 904 (1).svg"
+                  : "../../../src/assets/Frame 904.svg"
+              }
+              alt="fav"
+              onClick={() => toggleFavorite(productInfo)}
+              className="w-10 h-10 cursor-pointer"
+            />
           </div>
 
           {/* Info Frame */}

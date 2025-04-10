@@ -29,8 +29,8 @@ const navigate=useNavigate()
   };
   
 
-  const handleAddProduct=(productId:string,quant:number):void=>{
-    addProduct(productId,quant)
+  const handleAddProduct=(product:Product,quant:number):void=>{
+    addProduct(product,quant)
   }
 
   return (
@@ -65,7 +65,7 @@ const navigate=useNavigate()
 
                 <div
                   className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 group-hover:bg-opacity-100 top-40 transition-opacity h-10 rounded text-center pt-2 pb-2 cursor-pointer text-white"
-                  onClick={() => handleAddProduct(product._id, 1)}
+                  onClick={() => handleAddProduct(product, 1)}
                 >
                   Add To Cart
                 </div>

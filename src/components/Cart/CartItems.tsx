@@ -1,11 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { RootState } from "../../app/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { updateQuantity } from "../../features/cart/cartSlice"; 
+import UseCart from "../../hooks/useCart";
 
 const CartItems = () => {
   const cart = useSelector((state: RootState) => state.cart.cartItems);
+  const {getCart}=UseCart()
   const dispatch = useDispatch();
   const [coupon, setCoupon] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
@@ -15,6 +17,9 @@ const CartItems = () => {
     const price = typeof item.productId !== "string" ? item.productId.price : 0;
     return acc + item.quantity * price;
   }, 0);
+  useEffect(()=>{
+    getCart();
+  },[cart])
 
   const handleApplyCoupon = () => {
     if (coupon.trim() === "") return;
