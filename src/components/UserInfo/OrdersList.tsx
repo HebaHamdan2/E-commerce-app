@@ -19,7 +19,6 @@ const OrdersList = () => {
     }
   };
   useEffect(() => {
-
     fetchOrders();
   }, []);
   const handleCancel = (orderId: string) => {

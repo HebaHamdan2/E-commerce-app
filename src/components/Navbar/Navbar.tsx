@@ -1,10 +1,33 @@
-import {  useContext, useState } from "react";
+import {  useContext, useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
+import UseCart from "../../hooks/useCart";
+import { useSelector } from "react-redux";
+import { RootState } from "../../app/store";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const cart = useSelector((state: RootState) => state.cart.cartItems);
   const auth=useContext(AuthContext);
+  const {getCart}=UseCart()
+ let [favLength,setFavLength]=useState(0);
+ useEffect(() => {
+  const handleStorageChange = () => {
+    const favs = JSON.parse(localStorage.getItem("favorites") || "[]");
+    setFavLength(favs.length);
+  };
+
+  window.addEventListener("storage", handleStorageChange);
+  handleStorageChange(); // run once on mount
+
+  return () => window.removeEventListener("storage", handleStorageChange);
+}, []);
+useEffect(() => {
+  if (auth?.isAuthenticated && auth.user?.token) {
+    getCart();
+  }
+}, [auth?.isAuthenticated, auth?.user?.token]);
+   
   return (
     <div className="wrapper mt-10 mb-4 flex justify-between items-center  ">
       <Link to={"/"}>
@@ -25,16 +48,27 @@ const Navbar = () => {
     menuOpen ? "block" : "hidden"
   } 2md:flex items-center flex-col 2md:flex-row absolute 2md:static top-[80px] bg-white px-[30%] py-3 left-0 shadow 2md:p-0 2md:shadow-none z-50`}
 >
-        <ul className="flex flex-col 2md:flex-row gap-4 items-center justify-center">
-          <li role="button" className="btn btn-ghost btn-circle">
+        <ul className="flex flex-col 2md:flex-row gap-4 items-center justify-center ">
+          <li role="button" className="btn btn-ghost btn-circle relative ">
             <Link to={'/whishlist'}>
             <img src="../../../src/assets/Vector.svg" alt="fav" />
             </Link>
-            
+     <div className="absolute rounded-full bg-primary text-xs w-4 h-4 flex items-center justify-center text-white top-1 right-1">
+  {favLength}
+</div>
+
           </li>
-          <li role="button" className="btn btn-ghost btn-circle">
-            <Link to={'/cart'}>  <img src="../../../src/assets/Cart.svg" alt="cart" /></Link>
-          </li>
+          <li role="button" className="relative btn btn-ghost btn-circle">
+  <Link to="/cart">
+    <img src="../../../src/assets/Cart.svg" alt="cart" />
+    {cart.length > 0 && (
+      <div className="absolute top-0 right-0 bg-primary text-xs w-4 h-4 flex items-center justify-center text-white rounded-full">
+        {cart.length}
+      </div>
+    )}
+  </Link>
+</li>
+
           <li>
             {auth?.isAuthenticated&&
                     <div className="dropdown">

@@ -19,7 +19,6 @@ const navigate=useNavigate()
   };
   const handleDelete = (product: Product) => {
     const isFavorite = favorites.some((fav) => fav._id === product._id);
-  
     const updatedFavorites = isFavorite
       ? favorites.filter((fav) => fav._id !== product._id)
       : [...favorites, product];
