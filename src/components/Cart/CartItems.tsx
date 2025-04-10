@@ -1,18 +1,15 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { RootState } from "../../app/store";
 import { useEffect, useState } from "react";
-import { updateQuantity } from "../../features/cart/cartSlice"; 
 import UseCart from "../../hooks/useCart";
 
 const CartItems = () => {
   const cart = useSelector((state: RootState) => state.cart.cartItems);
-  const {getCart,removeItem,removeItems}=UseCart()
-  const dispatch = useDispatch();
+  const {getCart,removeItem,removeItems,updateQuant}=UseCart()
   const [coupon, setCoupon] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
   const [discount, setDiscount] = useState(0);
-
   const totalPrice = cart.reduce((acc, item) => {
     const price = typeof item.productId !== "string" ? item.productId.price : 0;
     return acc + item.quantity * price;
@@ -33,13 +30,13 @@ const CartItems = () => {
 
   const handleUpdateQuantity = (productId: string, quantity: number) => {
     if (quantity > 0) {
-      dispatch(updateQuantity({ productId, quantity }));
+   updateQuant(productId,quantity);
     }
   };
 
   if (!cart || cart.length === 0) {
     return (
-      <div className="text-center pt-24 text-gray-500">
+      <div className="text-center pt-24 text-gray-500 mb-96">
         Your cart is currently empty.
       </div>
     );
@@ -161,11 +158,11 @@ const CartItems = () => {
             <span className="text-green-600">${finalTotal.toFixed(2)}</span>
           </p>
 
-          <button className="w-full bg-primary text-white py-2 rounded-lg hover:bg-gray-800 transition">
+          <button className="w-full bg-primary text-white py-2 rounded-lg hover:bg-red-800 transition">
             Checkout
           </button>
           <button
-  className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition"
+  className="w-full bg-primary text-white py-2 rounded-lg hover:bg-red-800 transition"
   onClick={() => removeItems()}
 >
   Clear Cart

@@ -53,7 +53,7 @@ useEffect(() => {
             <Link to={'/whishlist'}>
             <img src="../../../src/assets/Vector.svg" alt="fav" />
             </Link>
-     <div className="absolute rounded-full bg-primary text-xs w-4 h-4 flex items-center justify-center text-white top-1 right-1">
+     <div className="absolute top-0 right-0 bg-primary text-xs w-4 h-4 flex items-center justify-center text-white rounded-full">
   {favLength}
 </div>
 

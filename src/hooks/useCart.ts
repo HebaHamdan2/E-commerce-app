@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import AuthContext from '../context/AuthContext';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import { addToCart, clearCart, ProductInfo, removeFromCart, setCart } from '../features/cart/cartSlice';
+import { addToCart, clearCart, ProductInfo, removeFromCart, setCart, updateQuantity } from '../features/cart/cartSlice';
 import { CartItem } from '../features/cart/cartSlice';
 
 const UseCart = () => {
@@ -110,8 +110,29 @@ const UseCart = () => {
       toast.error(err.response?.data?.message || 'An error occurred.');
     }
   }
+  const updateQuant=async(productId:string,quantity:number)=>{
+    if (!auth?.user?.token) return;
+    const headers = {
+      authorization: `Heba__${auth?.user.token}`,
+    };
+    const data={
+      quantity:quantity
+    }
 
-  return { addProduct, getCart,removeItem ,removeItems};
+    try {
+      const response = await axios.put(`https://apiecommerce-hblh.onrender.com/cart/update/${productId}`,data,{
+        headers,
+      });
+      if (response.data?.message === 'Cart updated successfully') {
+      toast.success("Cart updated successfully")
+      dispatch(updateQuantity({productId,quantity}));
+      }
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || 'An error occurred.');
+    }
+  } 
+
+  return { addProduct, getCart,removeItem ,removeItems,updateQuant};
 };
 
 export default UseCart;
