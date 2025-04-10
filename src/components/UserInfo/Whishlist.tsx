@@ -15,7 +15,7 @@ const navigate=useNavigate()
   }, []);
 
   const handleProduct = (productId: string, slug: string) => {
-    navigate(`/products/${slug}`, { state: { productId } });
+    navigate(`/products/${productId}/${slug}`, { state: { productId } });
   };
   const handleDelete = (product: Product) => {
     const isFavorite = favorites.some((fav) => fav._id === product._id);
