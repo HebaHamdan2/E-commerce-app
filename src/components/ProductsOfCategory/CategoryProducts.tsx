@@ -68,18 +68,26 @@ const CategoryProducts = () => {
 <img src="../../../src/assets/Fill Eye.svg" alt="eye"  className="cursor-pointer"  onClick={() => handleProduct(product._id,product.slug,product.categoryId)} />
 </div>
 
-
+<div className="absolute top-2 left-2 flex flex-col items-center">
+                {product.discount>0&&
+                 <div className="bg-primary px-3 py-1 rounded text-white">
+                 -{product.discount}%
+               </div>}
+                </div>
                             <img
                                 src={product.mainImage.secure_url}
                                 alt="product"
                                 className="w-full h-52 object-cover mb-2 rounded"
                             />
+
                               <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 group-hover:bg-opacity-100 top-40 transition-opacity h-10 rounded text-center pt-2 pb-2 cursor-pointer text-white"onClick={()=>handleAddProduct(product,1)}  >Add To Cart</div>
                       
                             </div>
                                   <div className="font-medium mb-1">{product.name}</div>
                             <div className="flex justify-items-center items-center gap-2 text-base text-primary">
-                                <div>${product.price}</div>
+                            <div className="line-through text-gray-500">${product.price}</div>
+  <div className="text-xl text-green-600">${product.finalPrice}</div>
+
                                 <div className="flex items-center">
   {Array.from({ length: Math.min(product.avgRating, 5) }).map((_, i) => (
     <span key={i}><img src="../../../src/assets/Vector (5).svg" alt="star" /></span>

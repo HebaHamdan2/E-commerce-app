@@ -29,7 +29,7 @@ useEffect(() => {
 }, [auth?.isAuthenticated, auth?.user?.token]);
    
   return (
-    <div className="wrapper mt-10 mb-4 flex justify-between items-center  ">
+    <div className="wrapper mt-10 pb-4 flex justify-between items-center border-b-2 ">
       <Link to={"/"}>
         <img src="../../../src/assets/Exclusive.svg" alt="logo" />
       </Link>

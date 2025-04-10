@@ -44,8 +44,6 @@ const UseCart = () => {
       toast.error(err.response?.data?.message || 'An error occurred.');
     }
   };
-
-
   const getCart = async (): Promise<void> => {
     const headers = {
       authorization: `Heba__${auth?.user.token}`,
@@ -154,7 +152,6 @@ const UseCart = () => {
     );
     }
   }
-
   return { addProduct, getCart,removeItem ,removeItems,updateQuant,createOrder};
 };
 

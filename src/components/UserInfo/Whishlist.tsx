@@ -55,7 +55,12 @@ const navigate=useNavigate()
                     onClick={() => handleProduct(product._id, product.slug)}
                   />
                 </div>
-
+                <div className="absolute top-2 left-2 flex flex-col items-center">
+                {product.discount>0&&
+                 <div className="bg-primary px-3 py-1 rounded text-white">
+                 -{product.discount}%
+               </div>}
+                </div>
                 <img
                   src={product.mainImage.secure_url}
                   alt="product"
@@ -73,7 +78,9 @@ const navigate=useNavigate()
               <div className="font-medium mb-1">{product.name}</div>
 
               <div className="flex justify-items-center items-center gap-2 text-base text-primary">
-                <div>${product.price}</div>
+              <div className="line-through text-gray-500">${product.price}</div>
+  <div className="text-xl text-green-600">${product.finalPrice}</div>
+
 
                 <div className="flex items-center">
                   {Array.from({ length: Math.min(product.avgRating, 5) }).map((_, i) => (

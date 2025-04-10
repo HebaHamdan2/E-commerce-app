@@ -142,9 +142,11 @@ const ProductDescription = ({ productId }: Props) => {
             )}
           </div>
 
-          <h3 className="text-primaryText text-2xl mt-4 mb-6">
-            ${productInfo?.price}
-          </h3>
+          <div className="flex flex-row gap-1 items-center mt-4 mb-2">
+          <div className="line-through text-gray-500">${productInfo?.price}</div>
+  <div className="text-xl text-green-600">${productInfo?.finalPrice}</div>
+
+          </div>
           <p className="text-sm text-primaryText">
             {productInfo?.description}
           </p>

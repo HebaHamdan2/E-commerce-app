@@ -76,6 +76,13 @@ const Products = () => {
                     className="cursor-pointer"
                     onClick={() => handleProduct(product._id, product.slug, product.categoryId)}
                   />
+                
+                </div>
+                <div className="absolute top-2 left-2 flex flex-col items-center">
+                {product.discount>0&&
+                 <div className="bg-primary px-3 py-1 rounded text-white">
+                 -{product.discount}%
+               </div>}
                 </div>
 
                 {/* Product Image + Add to Cart */}
@@ -95,7 +102,9 @@ const Products = () => {
               {/* Product Details */}
               <div className="font-medium mb-1">{product.name}</div>
               <div className="flex justify-items-center items-center gap-2 text-base text-primary">
-                <div>${product.price}</div>
+              <div className="line-through text-gray-500">${product.price}</div>
+  <div className="text-xl text-green-600">${product.finalPrice}</div>
+
                 <div className="flex items-center">
                   {Array.from({ length: Math.min(product.avgRating, 5) }).map((_, i) => (
                     <span key={i}><img src="../../../src/assets/Vector (5).svg" alt="star" /></span>
