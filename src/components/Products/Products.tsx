@@ -1,17 +1,18 @@
 import { useNavigate } from "react-router-dom";
-import UseProducts from "../../hooks/useProducts";
 import { useEffect, useState } from "react";
 import { Product } from "../../types/productTypes";
 import UseCart from "../../hooks/useCart";
+import { useGetProductsQuery } from "../../features/api/productsApi";
 
 const Products = () => {
-  const { allproducts, getProducts } = UseProducts();
+  const { data, isLoading, isError } = useGetProductsQuery({ page: 1, limit: 8 });
   const navigate = useNavigate();
   const [favorites, setFavorites] = useState<Product[]>([]);
   const { addProduct } = UseCart();
 
+  const allproducts = data?.products || [];
+
   useEffect(() => {
-    getProducts(1, 8);
     const stored = localStorage.getItem("favorites");
     if (stored) {
       setFavorites(JSON.parse(stored) as Product[]);
@@ -20,7 +21,6 @@ const Products = () => {
 
   const toggleFavorite = (product: Product) => {
     const isFavorite = favorites.some((fav) => fav._id === product._id);
-
     const updatedFavorites = isFavorite
       ? favorites.filter((fav) => fav._id !== product._id)
       : [...favorites, product];
@@ -34,12 +34,15 @@ const Products = () => {
       console.error("Product ID is missing!");
       return;
     }
-    await addProduct(product, quantity); 
+    await addProduct(product, quantity);
   };
 
   const handleProduct = (productId: string, slug: string, categoryId: string): void => {
     navigate(`/products/${categoryId}/${slug}`, { state: { productId } });
   };
+
+  if (isLoading) return <div className="text-center py-10">Loading products...</div>;
+  if (isError) return <div className="text-center text-red-500 py-10">Failed to load products.</div>;
 
   return (
     <div className="flex flex-col mt-10">
@@ -55,7 +58,6 @@ const Products = () => {
           {allproducts.map((product) => (
             <div key={product._id} className="p-4 text-start">
               <div className="relative group">
-                {/* Favorite Icon */}
                 <div className="absolute top-2 right-2 flex flex-col items-center gap-2">
                   <img
                     src={
@@ -76,16 +78,16 @@ const Products = () => {
                     className="cursor-pointer"
                     onClick={() => handleProduct(product._id, product.slug, product.categoryId)}
                   />
-                
-                </div>
-                <div className="absolute top-2 left-2 flex flex-col items-center">
-                {product.discount>0&&
-                 <div className="bg-primary px-3 py-1 rounded text-white">
-                 -{product.discount}%
-               </div>}
                 </div>
 
-                {/* Product Image + Add to Cart */}
+                <div className="absolute top-2 left-2 flex flex-col items-center">
+                  {product.discount > 0 && (
+                    <div className="bg-primary px-3 py-1 rounded text-white">
+                      -{product.discount}%
+                    </div>
+                  )}
+                </div>
+
                 <img
                   src={product.mainImage.secure_url}
                   alt="product"
@@ -93,17 +95,16 @@ const Products = () => {
                 />
                 <div
                   className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 group-hover:bg-opacity-100 top-40 transition-opacity h-10 rounded text-center pt-2 pb-2 cursor-pointer text-white"
-                  onClick={() => handleAddProduct(product, 1)} 
+                  onClick={() => handleAddProduct(product, 1)}
                 >
                   Add To Cart
                 </div>
               </div>
 
-              {/* Product Details */}
               <div className="font-medium mb-1">{product.name}</div>
               <div className="flex justify-items-center items-center gap-2 text-base text-primary">
-              <div className="line-through text-gray-500">${product.price}</div>
-  <div className="text-xl text-green-600">${product.finalPrice}</div>
+                <div className="line-through text-gray-500">${product.price}</div>
+                <div className="text-xl text-green-600">${product.finalPrice}</div>
 
                 <div className="flex items-center">
                   {Array.from({ length: Math.min(product.avgRating, 5) }).map((_, i) => (

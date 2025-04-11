@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { CategoriesResponse, Category } from '../types/categoryTypys';
 import { CategoryProductsResponse, Product } from '../types/productTypes';
 
 const UseCategories = () => {
