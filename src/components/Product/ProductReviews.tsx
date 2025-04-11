@@ -8,27 +8,43 @@ type Props = {
 };
 
 const ProductReviews = ({ productId }: Props) => {
-  const { getProduct, productInfo, addReview ,deleteReview} = UseSpecificProduct(); 
+  const { getProduct, productInfo, addReview, deleteReview, updateReview } = UseSpecificProduct();
   const auth = useContext(AuthContext);
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
+  const [editingReview, setEditingReview] = useState<string | null>(null);  // Track the review being edited
+  const [originalRating, setOriginalRating] = useState<number | null>(null);
+  const [originalComment, setOriginalComment] = useState<string>("");
 
   useEffect(() => {
     getProduct(productId);
     auth?.getuserId?.(); 
-  }, []);
+  }, [productId]);
 
   const handleSubmit = async () => {
     if (!rating || !comment.trim()) {
       return toast.success("Please provide both a rating and a comment");
     }
 
-    await addReview(productId, comment, rating); 
-    await getProduct(productId); // Refresh reviews
-    setRating(0);
-    setComment("");
+    if (editingReview) {
+      const isRatingChanged = rating !== originalRating;
+      const isCommentChanged = comment !== originalComment;
+
+      if (isRatingChanged || isCommentChanged) {
+        await updateReview(editingReview, isCommentChanged ? comment : undefined, isRatingChanged ? rating : undefined);
+      }
+      setEditingReview(null);  
+      setOriginalRating(null); 
+      setOriginalComment(""); 
+    } else {
+      await addReview(productId, comment, rating); 
+      await getProduct(productId); // Refresh reviews
+      setRating(0);
+      setComment("");
+    }
   };
-  const handleDelete = (reviewId:string) => {
+
+  const handleDelete = (reviewId: string) => {
     toast.custom((t) => (
       <div className="bg-white p-4 rounded shadow-md border border-gray-200 w-[300px]">
         <p className="text-sm text-gray-700 mb-4">Are you sure you want to delete this review?</p>
@@ -45,7 +61,6 @@ const ProductReviews = ({ productId }: Props) => {
               toast.dismiss(t.id);
               try {
                 await deleteReview(reviewId);
-                
               } catch (error) {
                 toast.error("Failed to delete review.");
               }
@@ -56,6 +71,14 @@ const ProductReviews = ({ productId }: Props) => {
         </div>
       </div>
     ));
+  };
+
+  const handleEdit = (review: any) => {
+    setEditingReview(review._id);
+    setOriginalRating(review.rating);
+    setOriginalComment(review.comment);
+    setRating(review.rating);
+    setComment(review.comment);
   };
 
   return (
@@ -88,15 +111,14 @@ const ProductReviews = ({ productId }: Props) => {
               ))}
             </div>
             <div className="flex flex-row justify-between">
-            <h3 className="font-bold text-xl capitalize">{review.createdBy.userName}</h3>
-            {review.createdBy._id === auth?.userId && (
-              <div className="flex flex-row gap-4 mt-2 text-sm text-primary">
-                <button>Edit</button>
-                <button onClick={()=>handleDelete(review._id)}>Delete</button>
-              </div>
-            )}
+              <h3 className="font-bold text-xl capitalize">{review.createdBy.userName}</h3>
+              {review.createdBy._id === auth?.userId && (
+                <div className="flex flex-row gap-4 mt-2 text-sm text-primary">
+                  <button onClick={() => handleEdit(review)}>Edit</button>
+                  <button onClick={() => handleDelete(review._id)}>Delete</button>
+                </div>
+              )}
             </div>
-           
             <p className="text-sm text-primaryText opacity-50 pt-3 pb-6">
               "{review.comment}"
             </p>
@@ -108,14 +130,13 @@ const ProductReviews = ({ productId }: Props) => {
                 month: "short",
               })}
             </p>
-            
           </div>
         ))}
       </div>
 
-      {/* Add Review Form */}
+      {/* Add/Edit Review Form */}
       <div className="border rounded p-6 my-10">
-        <h3 className="text-lg font-semibold mb-4">Leave a Review</h3>
+        <h3 className="text-lg font-semibold mb-4">{editingReview ? "Edit Review" : "Leave a Review"}</h3>
         <div className="flex items-center gap-2 mb-4">
           {[1, 2, 3, 4, 5].map((num) => (
             <img
@@ -141,7 +162,7 @@ const ProductReviews = ({ productId }: Props) => {
           onClick={handleSubmit}
           className="bg-primary text-white px-6 py-2 rounded"
         >
-          Submit Review
+          {editingReview ? "Update Review" : "Submit Review"}
         </button>
       </div>
     </>

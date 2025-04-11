@@ -67,9 +67,34 @@ const UseSpecificProduct = () => {
     }
   };
   
+  const updateReview = async (reviewId: string, comment?: string, rating?: number) => {
+    let headers = {
+      authorization: `Heba__${auth?.user.token}`,
+    };
+    const data: any = {};
+    if (comment) data.comment = comment;
+    if (rating) data.rating = rating.toString();
+
+    try {
+      const response = await axios.patch(
+        `https://apiecommerce-hblh.onrender.com/review/update/${reviewId}`,
+        data,
+        { headers }
+      );
+      
+      if (response.data?.message === "Review updated successfully") {
+        toast.success("Review updated successfully");
+        return true; 
+      }
+    } catch (error:any) {
+      toast.error(error?.response?.data?.message || "Error updating review");
+      return false;
+    }
+  };
+
   
 
-  return { getProduct, productInfo, addReview, deleteReview };
+  return { getProduct, productInfo, addReview, deleteReview,updateReview };
 };
 
 export default UseSpecificProduct;
