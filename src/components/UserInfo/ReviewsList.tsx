@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import UseUser from "../../hooks/useUser";
 import toast from "react-hot-toast";
 import UseSpecificProduct from "../../hooks/useSpecificProduct";
@@ -8,9 +8,15 @@ const ReviewsList = () => {
   const { getAllReviews, reviews } = UseUser();
   const { deleteReview } = UseSpecificProduct();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    getAllReviews();
+    const fetch = async () => {
+      setLoading(true);
+      await getAllReviews();
+      setLoading(false);
+    };
+    fetch();
   }, []);
 
   const handleDelete = (reviewId: string) => {
@@ -42,9 +48,18 @@ const ReviewsList = () => {
     ));
   };
 
-  const handleReview = (productId: string, slug: string,categoryId:string) => {
+  const handleReview = (productId: string, slug: string, categoryId: string) => {
     navigate(`/products/${categoryId}/${slug}`, { state: { productId } });
   };
+
+  const SkeletonReview = () => (
+    <div className="animate-pulse flex flex-col border rounded py-7 px-8 space-y-4">
+      <div className="bg-gray-300 w-20 h-20 rounded" />
+      <div className="h-4 bg-gray-300 rounded w-1/2" />
+      <div className="h-4 bg-gray-200 rounded w-full" />
+      <div className="h-3 bg-gray-200 rounded w-1/4" />
+    </div>
+  );
 
   return (
     <>
@@ -52,7 +67,13 @@ const ReviewsList = () => {
         Reviews [{reviews?.length || 0}]
       </div>
 
-      {reviews?.length ? (
+      {loading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-96 mt-14 w-full max-w-7xl">
+          {Array.from({ length: 4 }).map((_, idx) => (
+            <SkeletonReview key={idx} />
+          ))}
+        </div>
+      ) : reviews?.length ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-96 mt-14 w-full max-w-7xl">
           {reviews.map((review) => {
             const product =
@@ -77,7 +98,6 @@ const ReviewsList = () => {
                   <h2 className="font-semibold">{product?.name}</h2>
 
                   <div className="flex items-center gap-4">
-                    {/* Star Rating */}
                     <div className="flex flex-row">
                       {Array.from({ length: 5 }).map((_, i) => (
                         <img
@@ -109,7 +129,7 @@ const ReviewsList = () => {
                           alt="eye"
                           className="cursor-pointer"
                           onClick={() =>
-                            handleReview(product._id, product.slug,product.categoryId)
+                            handleReview(product._id, product.slug, product.categoryId)
                           }
                         />
                       )}
@@ -117,12 +137,10 @@ const ReviewsList = () => {
                   </div>
                 </div>
 
-                {/* Comment */}
                 <p className="text-sm text-primaryText opacity-50 pt-3 pb-6">
                   "{review.comment}"
                 </p>
 
-                {/* Date */}
                 <p className="text-sm text-primaryText opacity-50">
                   Posted On{" "}
                   {new Date(review.createdAt).toLocaleDateString("en-US", {

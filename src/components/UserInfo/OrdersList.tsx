@@ -6,21 +6,24 @@ const OrdersList = () => {
   const { getAllOrders, orders } = UseUser();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  let{cancelOrder}=UseUser()
+  const { cancelOrder } = UseUser();
+
   const fetchOrders = async () => {
     setLoading(true);
-    setError(null); 
+    setError(null);
     try {
-      await getAllOrders(); 
+      await getAllOrders();
     } catch (err) {
       setError("Failed to load orders.");
     } finally {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     fetchOrders();
   }, []);
+
   const handleCancel = (orderId: string) => {
     toast.custom((t) => (
       <div className="bg-white p-4 rounded shadow-md border border-gray-200 w-[300px]">
@@ -36,8 +39,8 @@ const OrdersList = () => {
             className="text-sm px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
             onClick={async () => {
               toast.dismiss(t.id);
-                await cancelOrder(orderId);
-              fetchOrders()
+              await cancelOrder(orderId);
+              fetchOrders();
             }}
           >
             Cancel Order
@@ -46,7 +49,6 @@ const OrdersList = () => {
       </div>
     ));
   };
-   
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -58,14 +60,46 @@ const OrdersList = () => {
     return date.toLocaleDateString(undefined, options);
   };
 
-  
-
+  // 🔄 Skeleton Loader
   if (loading) {
-    return <div>Loading orders...</div>;
+    return (
+      <div className="pt-24 max-w-6xl mx-auto px-4 animate-pulse space-y-6">
+        {[...Array(3)].map((_, idx) => (
+          <div
+            key={idx}
+            className="bg-white shadow rounded-xl p-6 border border-gray-100 space-y-4"
+          >
+            <div className="flex justify-between">
+              <div className="h-4 w-1/3 bg-gray-200 rounded"></div>
+              <div className="h-4 w-24 bg-gray-200 rounded"></div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                {[...Array(2)].map((_, i) => (
+                  <div key={i} className="flex gap-4 items-center">
+                    <div className="w-16 h-16 bg-gray-200 rounded"></div>
+                    <div className="space-y-1 w-full">
+                      <div className="h-3 w-3/4 bg-gray-200 rounded"></div>
+                      <div className="h-3 w-1/2 bg-gray-200 rounded"></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="space-y-2">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="h-3 bg-gray-200 rounded w-full"></div>
+                ))}
+                <div className="h-4 w-1/2 bg-gray-200 rounded"></div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="text-center text-red-500">{error}</div>;
+    return <div className="text-center text-red-500 py-20">{error}</div>;
   }
 
   return (
@@ -80,7 +114,7 @@ const OrdersList = () => {
             key={order._id}
             className="bg-white shadow-lg rounded-xl p-6 border border-gray-100"
           >
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
               <div>
                 <p className="text-lg font-medium">Order #{order._id}</p>
                 <p className="text-sm text-gray-500">
@@ -92,35 +126,45 @@ const OrdersList = () => {
                 </p>
               </div>
 
-              <span
-                className={`text-sm font-semibold px-4 py-1 rounded-full mt-3 sm:mt-0 ${
-                  order.status === "pending"
-                    ? "bg-yellow-100 text-yellow-800"
-                    : order.status === "confirmed"
-                    ? "bg-blue-100 text-blue-800"
-                    : order.status === "on_way"
-                    ? "bg-indigo-100 text-indigo-800"
-                    : order.status === "delivered"
-                    ? "bg-green-100 text-green-800"
-                    : "bg-red-100 text-red-800"
-                }`}
-              >
-                {order.status.replace("_", " ")}
-              </span>
-              {order.status==="pending"&& <p className="text-primary px-4 py-1 bg-red-200 rounded-full  text-sm font-semibold  mt-3 cursor-pointer items-center" onClick={()=>handleCancel(order._id)}>Cancel</p>
-      }          </div>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                <span
+                  className={`text-sm font-semibold px-4 py-1 rounded-full ${
+                    order.status === "pending"
+                      ? "bg-yellow-100 text-yellow-800"
+                      : order.status === "confirmed"
+                      ? "bg-blue-100 text-blue-800"
+                      : order.status === "on_way"
+                      ? "bg-indigo-100 text-indigo-800"
+                      : order.status === "delivered"
+                      ? "bg-green-100 text-green-800"
+                      : "bg-red-100 text-red-800"
+                  }`}
+                >
+                  {order.status.replace("_", " ")}
+                </span>
+
+                {order.status === "pending" && (
+                  <button
+                    onClick={() => handleCancel(order._id)}
+                    className="text-primary px-4 py-1 bg-red-200 hover:bg-red-300 rounded-full text-sm font-semibold"
+                  >
+                    Cancel
+                  </button>
+                )}
+              </div>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 {order.products.map((orderedProduct, i) => (
                   <div key={i} className="flex items-center gap-4">
-                   {orderedProduct.productId?.mainImage?.secure_url && (
-        <img
-          src={orderedProduct.productId.mainImage.secure_url}
-          alt={orderedProduct.productId.name}
-          className="w-16 h-16 object-cover rounded"
-        />
-      )}
+                    {orderedProduct.productId?.mainImage?.secure_url && (
+                      <img
+                        src={orderedProduct.productId.mainImage.secure_url}
+                        alt={orderedProduct.productId.name}
+                        className="w-16 h-16 object-cover rounded"
+                      />
+                    )}
                     <div>
                       <p className="text-sm text-gray-500">${orderedProduct.unitPrice}</p>
                       <p className="text-sm text-gray-500">
@@ -131,7 +175,6 @@ const OrdersList = () => {
                 ))}
               </div>
 
-              {/* Order Info */}
               <div className="text-sm text-gray-600 space-y-2">
                 <p>
                   <span className="font-semibold text-gray-800">Phone:</span>{" "}
@@ -150,9 +193,7 @@ const OrdersList = () => {
                   </p>
                 )}
                 <p>
-                  <span className="font-semibold text-gray-800">
-                    Payment:
-                  </span>{" "}
+                  <span className="font-semibold text-gray-800">Payment:</span>{" "}
                   {order.paymentType}
                 </p>
                 <p className="text-base text-black font-semibold pt-2">
@@ -164,13 +205,11 @@ const OrdersList = () => {
         ))}
       </div>
 
-      {orders?.length === 0 && (
+      {orders?.length === 0 && !loading && (
         <div className="text-center mt-10 text-gray-500 mb-96">
           You haven’t placed any orders yet.
         </div>
       )}
-
-    
     </div>
   );
 };

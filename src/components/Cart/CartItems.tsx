@@ -9,6 +9,7 @@ const CartItems = () => {
   const cart = useSelector((state: RootState) => state.cart.cartItems);
   const { getCart, removeItem, removeItems, updateQuant, createOrder } = UseCart();
 
+  const [loading, setLoading] = useState(true);
   const [coupon, setCoupon] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
   const [discount, setDiscount] = useState(0);
@@ -22,9 +23,8 @@ const CartItems = () => {
 
   const finalTotal = parseFloat((totalPrice - discount).toFixed(2));
 
-
   useEffect(() => {
-    getCart();
+    getCart().finally(() => setTimeout(() => setLoading(false), 800));
   }, []);
 
   const handleApplyCoupon = () => {
@@ -51,6 +51,36 @@ const CartItems = () => {
     });
   };
 
+  const SkeletonRow = () => (
+    <tr className="border-b animate-pulse">
+      <td className="px-4 py-2 flex items-center gap-2">
+        <div className="w-16 h-16 bg-gray-300 rounded-lg" />
+        <div className="h-4 w-24 bg-gray-200 rounded" />
+      </td>
+      <td className="px-4 py-2">
+        <div className="h-4 w-12 bg-gray-200 rounded" />
+      </td>
+      <td className="px-4 py-2">
+        <div className="h-4 w-24 bg-gray-200 rounded" />
+      </td>
+      <td className="px-4 py-2">
+        <div className="h-4 w-12 bg-gray-200 rounded" />
+      </td>
+    </tr>
+  );
+
+  const SkeletonSummary = () => (
+    <div className="bg-white shadow-lg rounded-xl p-6 border space-y-4 animate-pulse">
+      <div className="h-6 w-1/2 bg-gray-300 rounded" />
+      <div className="h-10 w-full bg-gray-200 rounded" />
+      <div className="h-4 w-3/4 bg-gray-200 rounded" />
+      <div className="h-4 w-1/2 bg-gray-200 rounded" />
+      <div className="h-4 w-1/3 bg-gray-200 rounded" />
+      <div className="h-10 w-full bg-gray-300 rounded" />
+      <div className="h-10 w-full bg-gray-300 rounded" />
+    </div>
+  );
+
   if (!cart || cart.length === 0) {
     return (
       <div className="text-center pt-24 text-gray-500 mb-96">
@@ -61,12 +91,9 @@ const CartItems = () => {
 
   return (
     <div className="mt-20">
-      {/* Breadcrumb */}
       <div className="flex justify-between mb-8 text-sm">
         <div className="flex text-sm">
-          <Link to="/" className="text-primaryText opacity-50">
-            Home /
-          </Link>
+          <Link to="/" className="text-primaryText opacity-50">Home /</Link>
           <span className="ml-1">Cart</span>
         </div>
       </div>
@@ -84,141 +111,132 @@ const CartItems = () => {
               </tr>
             </thead>
             <tbody>
-              {cart.map((item, index) => {
-                if (typeof item.productId === "string") return null;
+              {loading
+                ? Array.from({ length: 3 }).map((_, i) => <SkeletonRow key={i} />)
+                : cart.map((item, index) => {
+                    if (typeof item.productId === "string") return null;
+                    const product = item.productId;
+                    const totalItemPrice = item.quantity * product.price;
 
-                const product = item.productId;
-                const totalItemPrice = item.quantity * product.price;
-
-                return (
-                  <tr key={index} className="border-b">
-                    <td className="px-4 py-2 flex items-center">
-                      <img
-                        src={product.mainImage.secure_url}
-                        alt={product.name}
-                        className="w-16 h-16 object-contain rounded-lg"
-                      />
-                      <span className="ml-4">{product.name}</span>
-                    </td>
-                    <td className="px-4 py-2">${product.price.toFixed(2)}</td>
-                    <td className="px-4 py-2">
-                      <div className="flex items-center gap-2">
-                        <button
-                          className="px-2 py-1 bg-gray-200 rounded"
-                          onClick={() =>
-                            handleUpdateQuantity(product._id, item.quantity - 1)
-                          }
-                        >
-                          -
-                        </button>
-                        <span>{item.quantity}</span>
-                        <button
-                          className="px-2 py-1 bg-gray-200 rounded"
-                          onClick={() =>
-                            handleUpdateQuantity(product._id, item.quantity + 1)
-                          }
-                        >
-                          +
-                        </button>
-                        <button
-                          className="ml-4 text-red-500 hover:text-red-700 text-sm"
-                          onClick={() => removeItem(product._id)}
-                          title="Remove item"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                    <td className="px-4 py-2">${totalItemPrice.toFixed(2)}</td>
-                  </tr>
-                );
-              })}
+                    return (
+                      <tr key={index} className="border-b">
+                        <td className="px-4 py-2 flex items-center">
+                          <img
+                            src={product.mainImage.secure_url}
+                            alt={product.name}
+                            className="w-16 h-16 object-contain rounded-lg"
+                          />
+                          <span className="ml-4">{product.name}</span>
+                        </td>
+                        <td className="px-4 py-2">${product.price.toFixed(2)}</td>
+                        <td className="px-4 py-2">
+                          <div className="flex items-center gap-2">
+                            <button
+                              className="px-2 py-1 bg-gray-200 rounded"
+                              onClick={() => handleUpdateQuantity(product._id, item.quantity - 1)}
+                            >
+                              -
+                            </button>
+                            <span>{item.quantity}</span>
+                            <button
+                              className="px-2 py-1 bg-gray-200 rounded"
+                              onClick={() => handleUpdateQuantity(product._id, item.quantity + 1)}
+                            >
+                              +
+                            </button>
+                            <button
+                              className="ml-4 text-red-500 hover:text-red-700 text-sm"
+                              onClick={() => removeItem(product._id)}
+                              title="Remove item"
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                        <td className="px-4 py-2">${totalItemPrice.toFixed(2)}</td>
+                      </tr>
+                    );
+                  })}
             </tbody>
           </table>
         </div>
 
-        {/* Checkout Summary */}
-        <div className="bg-white shadow-lg rounded-xl p-6 border space-y-4">
-          <h3 className="text-xl font-semibold">Order Summary</h3>
+        {/* Order Summary */}
+        {loading ? (
+          <SkeletonSummary />
+        ) : (
+          <div className="bg-white shadow-lg rounded-xl p-6 border space-y-4">
+            <h3 className="text-xl font-semibold">Order Summary</h3>
 
-          {/* Coupon Input */}
-          <div className="flex gap-2">
-            <input
-              type="text"
-              placeholder="Enter coupon"
-              className="w-full border rounded-lg px-4 py-2 text-sm"
-              value={coupon}
-              onChange={(e) => setCoupon(e.target.value)}
-            />
-            <button
-              onClick={handleApplyCoupon}
-              className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition"
-            >
-              Apply
-            </button>
-          </div>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                placeholder="Enter coupon"
+                className="w-full border rounded-lg px-4 py-2 text-sm"
+                value={coupon}
+                onChange={(e) => setCoupon(e.target.value)}
+              />
+              <button
+                onClick={handleApplyCoupon}
+                className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition"
+              >
+                Apply
+              </button>
+            </div>
 
-          {appliedCoupon && (
-            <p className="text-sm text-green-600">
-              Coupon "<strong>{appliedCoupon}</strong>" applied!
-            </p>
-          )}
-
-          <hr />
-
-          {/* Pricing Summary */}
-          <div className="space-y-1 text-sm">
-            <p>
-              Subtotal:{" "}
-              <span className="text-gray-700">${totalPrice.toFixed(2)}</span>
-            </p>
-            {discount > 0 && (
-              <p className="text-green-600">
-                Discount: -${discount.toFixed(2)}
+            {appliedCoupon && (
+              <p className="text-sm text-green-600">
+                Coupon "<strong>{appliedCoupon}</strong>" applied!
               </p>
             )}
-            <p className="text-lg font-semibold">
-              Total:{" "}
-              <span className="text-green-600">${finalTotal}</span>
-            </p>
+
+            <hr />
+
+            <div className="space-y-1 text-sm">
+              <p>
+                Subtotal:{" "}
+                <span className="text-gray-700">${totalPrice.toFixed(2)}</span>
+              </p>
+              {discount > 0 && (
+                <p className="text-green-600">Discount: -${discount.toFixed(2)}</p>
+              )}
+              <p className="text-lg font-semibold">
+                Total: <span className="text-green-600">${finalTotal}</span>
+              </p>
+            </div>
+
+            <div className="mt-4">
+              <input
+                type="text"
+                placeholder="Enter address"
+                className="w-full border rounded-lg px-4 py-2 text-sm"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Enter phone number"
+                className="w-full border rounded-lg px-4 py-2 text-sm mt-2"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+              />
+            </div>
+
+            <button
+              onClick={handleCheckout}
+              className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
+            >
+              Checkout
+            </button>
+
+            <button
+              className="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition"
+              onClick={removeItems}
+            >
+              Clear Cart
+            </button>
           </div>
-
-          {/* Address & Phone Inputs */}
-          <div className="mt-4">
-            <input
-              type="text"
-              placeholder="Enter address"
-              className="w-full border rounded-lg px-4 py-2 text-sm"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Enter phone number"
-              className="w-full border rounded-lg px-4 py-2 text-sm mt-2"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-          </div>
-
-          {/* Checkout Button */}
-          <button
-            onClick={handleCheckout}
-            className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition"
-          >
-            Checkout
-          </button>
-
-          {/* Clear Cart Button */}
-          <button
-            className="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition"
-            onClick={() => {
-              removeItems();
-            }}
-          >
-            Clear Cart
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );

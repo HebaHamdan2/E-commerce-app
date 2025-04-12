@@ -12,13 +12,13 @@ const ProductReviews = ({ productId }: Props) => {
   const auth = useContext(AuthContext);
   const [rating, setRating] = useState<number>(0);
   const [comment, setComment] = useState<string>("");
-  const [editingReview, setEditingReview] = useState<string | null>(null);  // Track the review being edited
+  const [editingReview, setEditingReview] = useState<string | null>(null);
   const [originalRating, setOriginalRating] = useState<number | null>(null);
   const [originalComment, setOriginalComment] = useState<string>("");
 
   useEffect(() => {
     getProduct(productId);
-    auth?.getuserId?.(); 
+    auth?.getuserId?.();
   }, [productId]);
 
   const handleSubmit = async () => {
@@ -31,14 +31,18 @@ const ProductReviews = ({ productId }: Props) => {
       const isCommentChanged = comment !== originalComment;
 
       if (isRatingChanged || isCommentChanged) {
-        await updateReview(editingReview, isCommentChanged ? comment : undefined, isRatingChanged ? rating : undefined);
+        await updateReview(
+          editingReview,
+          isCommentChanged ? comment : undefined,
+          isRatingChanged ? rating : undefined
+        );
       }
-      setEditingReview(null);  
-      setOriginalRating(null); 
-      setOriginalComment(""); 
+      setEditingReview(null);
+      setOriginalRating(null);
+      setOriginalComment("");
     } else {
-      await addReview(productId, comment, rating); 
-      await getProduct(productId); // Refresh reviews
+      await addReview(productId, comment, rating);
+      await getProduct(productId);
       setRating(0);
       setComment("");
     }
@@ -81,6 +85,30 @@ const ProductReviews = ({ productId }: Props) => {
     setComment(review.comment);
   };
 
+  // 🧱 Skeleton loader while fetching
+  if (!productInfo) {
+    return (
+      <div className="mt-36 space-y-6 animate-pulse">
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-6 bg-gray-300 rounded" />
+          <div className="w-48 h-6 bg-gray-300 rounded" />
+        </div>
+        {[...Array(2)].map((_, i) => (
+          <div key={i} className="border rounded p-6 space-y-3">
+            <div className="flex gap-2">
+              {[...Array(5)].map((_, j) => (
+                <div key={j} className="w-4 h-4 bg-gray-300 rounded" />
+              ))}
+            </div>
+            <div className="h-4 w-32 bg-gray-300 rounded" />
+            <div className="h-3 w-full bg-gray-200 rounded" />
+            <div className="h-3 w-1/2 bg-gray-200 rounded" />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="flex flex-row items-center gap-4 mb-8 mt-36">
@@ -119,9 +147,7 @@ const ProductReviews = ({ productId }: Props) => {
                 </div>
               )}
             </div>
-            <p className="text-sm text-primaryText opacity-50 pt-3 pb-6">
-              "{review.comment}"
-            </p>
+            <p className="text-sm text-primaryText opacity-50 pt-3 pb-6">"{review.comment}"</p>
             <p className="text-sm text-primaryText opacity-50">
               Posted On{" "}
               {new Date(review.createdAt).toLocaleDateString("en-US", {
@@ -158,10 +184,7 @@ const ProductReviews = ({ productId }: Props) => {
           className="w-full border rounded p-3 text-sm mb-4"
           placeholder="Write your review here..."
         />
-        <button
-          onClick={handleSubmit}
-          className="bg-primary text-white px-6 py-2 rounded"
-        >
+        <button onClick={handleSubmit} className="bg-primary text-white px-6 py-2 rounded">
           {editingReview ? "Update Review" : "Submit Review"}
         </button>
       </div>

@@ -23,6 +23,27 @@ const ProductDescription = ({ productId }: Props) => {
       setFavorites(JSON.parse(stored));
     }
   }, [productId]);
+  if (!productInfo) {
+    return (
+      <div className="animate-pulse space-y-4 mt-10">
+        <div className="h-6 bg-gray-300 rounded w-1/4"></div>
+        <div className="flex flex-col 2md:flex-row gap-6">
+          <div className="flex gap-4">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="w-28 h-28 bg-gray-300 rounded" />
+            ))}
+          </div>
+          <div className="flex-1 h-96 bg-gray-300 rounded" />
+        </div>
+        <div className="space-y-2 mt-6">
+          <div className="h-5 bg-gray-300 rounded w-1/2" />
+          <div className="h-4 bg-gray-300 rounded w-3/4" />
+          <div className="h-4 bg-gray-300 rounded w-2/3" />
+        </div>
+      </div>
+    );
+  }
+  
 
   const handleAddProduct = async (product: Product, quantity: number) => {
     if (!product._id) {
