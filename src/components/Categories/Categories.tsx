@@ -35,21 +35,21 @@ const Categories = () => {
   return (
     <div className="flex flex-col mt-10">
       <div className="flex flex-row items-center gap-4 mb-5">
-        <img src="../../../src/assets/Rectangle 18 (1).svg" alt="header" />
+        <img src="/assets/Rectangle 18 (1).svg" alt="header" />
         <h2 className="text-primary text-base font-semibold">Categories</h2>
       </div>
       <div className="flex flex-row justify-between mb-5">
         <h3 className="text-4xl font-semibold">Browse By Category</h3>
         <div className="flex flex-row gap-2">
           <img
-            src="../../../src/assets/Fill With Left Arrow (1).svg"
+            src="/assets/Fill With Left Arrow (1).svg"
             width="50%"
             className={`btn btn-ghost btn-circle ${startIndex === 0 ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
             alt="left"
             onClick={prevSlide}
           />
           <img
-            src="../../../src/assets/Fill With Right Arrow (1).svg"
+            src="/assets/Fill With Right Arrow (1).svg"
             width="50%"
             className={`btn btn-ghost btn-circle ${(startIndex + itemsPerPage >= allcatg.length) ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
             alt="right"

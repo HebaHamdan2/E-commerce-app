@@ -175,7 +175,7 @@ const ProductDescription = ({ productId }: Props) => {
           </p>
       {auth?.isAuthenticated&&(<div className="flex items-center px-4 py-2 mt-6">
             <img
-              src="../../../src/assets/minus.svg"
+              src="/assets/minus.svg"
               alt="minus"
               onClick={handleDecrement}
               className={`w-10 h-10 ${quantity > 1 ? "cursor-pointer" : "cursor-not-allowed"}`}
@@ -184,7 +184,7 @@ const ProductDescription = ({ productId }: Props) => {
               {quantity}
             </p>
             <img
-              src="../../../src/assets/plus.svg"
+              src="/assets/plus.svg"
               alt="plus"
               onClick={handleIncrement}
               className={`w-10 h-10 ${quantity < (productInfo?.stock ?? 0) ? "cursor-pointer" : "cursor-not-allowed"}`}
@@ -193,7 +193,7 @@ const ProductDescription = ({ productId }: Props) => {
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-6 mt-6">
           {auth?.isAuthenticated&&(<img
-              src="../../../src/assets/Button.svg"
+              src="/assets/Button.svg"
               alt="add"
               onClick={handleAddToCartClick}
               className="w-full sm:w-auto max-w-xs cursor-pointer"
@@ -201,8 +201,8 @@ const ProductDescription = ({ productId }: Props) => {
             <img
               src={
                 favorites.some((fav) => fav._id === productInfo?._id)
-                  ? "../../../src/assets/Frame 904 (1).svg"
-                  : "../../../src/assets/Frame 904.svg"
+                  ? "/assets/Frame 904 (1).svg"
+                  : "/assets/Frame 904.svg"
               }
               alt="fav"
               onClick={() => toggleFavorite(productInfo)}
@@ -212,7 +212,7 @@ const ProductDescription = ({ productId }: Props) => {
 
           {/* Info Frame */}
           <div className="mt-10">
-            <img src="../../../src/assets/Frame 911.svg" alt="info" />
+            <img src="/assets/Frame 911.svg" alt="info" />
           </div>
         </div>
       </div>

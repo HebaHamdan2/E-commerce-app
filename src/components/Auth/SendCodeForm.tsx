@@ -13,7 +13,7 @@ const SendCodeForm = () => {
     const onSubmit:SubmitHandler<SendCodeFormData>=(data)=>sendCode(data)
     return (
         <div className="flex flex-col 2md:flex-row ">
-       <img src="../../../src/assets/dl.beatsnoop 1.svg" alt="sendcode" />   
+       <img src="/assets/dl.beatsnoop 1.svg" alt="sendcode" />   
        <div className="w-full 2md:w-[95%] p-8 flex flex-col items-start justify-center">
         <h2 className="font-Inter font-medium text-3xl pb-6 text-primaryText">Send Reset Code</h2>
         <p className="text-primaryText text-base font-normal pb-12">Enter your Email below</p>

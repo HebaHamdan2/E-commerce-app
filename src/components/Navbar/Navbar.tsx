@@ -39,7 +39,7 @@ const Navbar = () => {
   return (
     <div className="wrapper mt-10 pb-4 flex justify-between items-center border-b-2">
       <Link to={"/"}>
-        <img src="../../../src/assets/Exclusive.svg" alt="logo" />
+        <img src="/assets/Exclusive.svg" alt="logo" />
       </Link>
 
       {/* Toggle Button for Mobile */}
@@ -48,9 +48,9 @@ const Navbar = () => {
         onClick={() => setMenuOpen(!menuOpen)}
       >
         {!menuOpen ? (
-          <img src="../../../src/assets/Menu.svg" alt="menu" />
+          <img src="/assets/Menu.svg" alt="menu" />
         ) : (
-          <img src="../../../src/assets/close.svg" alt="close" />
+          <img src="/assets/close.svg" alt="close" />
         )}
       </div>
 
@@ -63,7 +63,7 @@ const Navbar = () => {
         <ul className="flex flex-col 2md:flex-row gap-4 items-center justify-center">
           <li role="button" className="btn btn-ghost btn-circle relative">
             <Link to={"/whishlist"}>
-              <img src="../../../src/assets/Vector.svg" alt="fav" />
+              <img src="/assets/Vector.svg" alt="fav" />
             </Link>
             <div className="absolute top-0 right-0 bg-primary text-xs w-4 h-4 flex items-center justify-center text-white rounded-full">
               {favLength}
@@ -71,7 +71,7 @@ const Navbar = () => {
           </li>
           <li role="button" className="relative btn btn-ghost btn-circle">
             <Link to="/cart">
-              <img src="../../../src/assets/Cart.svg" alt="cart" />
+              <img src="/assets/Cart.svg" alt="cart" />
               {cart.length > 0 && (
                 <div className="absolute top-0 right-0 bg-primary text-xs w-4 h-4 flex items-center justify-center text-white rounded-full">
                   {cart.length}
@@ -84,7 +84,7 @@ const Navbar = () => {
             {auth?.isAuthenticated && (
               <div className="dropdown">
                 <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
-                  <img src="../../../src/assets/user.svg" alt="user" className="w-6 h-6" />
+                  <img src="/assets/user.svg" alt="user" className="w-6 h-6" />
                 </div>
                 <ul
                   tabIndex={0}
@@ -92,25 +92,25 @@ const Navbar = () => {
                 >
                   <li>
                     <Link to={"/account"} className="flex items-center gap-3 px-3 py-2">
-                      <img src="../../../src/assets/user (2).svg" alt="account" className="w-5 h-5" />
+                      <img src="/assets/user (2).svg" alt="account" className="w-5 h-5" />
                       <span>Manage My Account</span>
                     </Link>
                   </li>
                   <li>
                     <Link to={"/orders"} className="flex items-center gap-3 px-3 py-2">
-                      <img src="../../../src/assets/Group.svg" alt="orders" className="w-5 h-5" />
+                      <img src="/assets/Group.svg" alt="orders" className="w-5 h-5" />
                       <span>My Orders</span>
                     </Link>
                   </li>
                   <li>
                     <Link to={"/reviews"} className="flex items-center gap-3 px-3 py-2">
-                      <img src="../../../src/assets/Vector (4).svg" alt="reviews" className="w-5 h-5" />
+                      <img src="/assets/Vector (4).svg" alt="reviews" className="w-5 h-5" />
                       <span>My Reviews</span>
                     </Link>
                   </li>
                   <li>
                     <button className="flex items-center gap-3 w-full px-3 py-2 text-left hover:bg-gray-100" onClick={auth?.logout}>
-                      <img src="../../../src/assets/Vector (3).svg" alt="logout" className="w-5 h-5" />
+                      <img src="/assets/Vector (3).svg" alt="logout" className="w-5 h-5" />
                       <span>Logout</span>
                     </button>
                   </li>

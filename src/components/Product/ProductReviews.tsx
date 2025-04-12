@@ -112,7 +112,7 @@ const ProductReviews = ({ productId }: Props) => {
   return (
     <>
       <div className="flex flex-row items-center gap-4 mb-8 mt-36">
-        <img src="../../../src/assets/Rectangle 18 (1).svg" alt="header" />
+        <img src="/assets/Rectangle 18 (1).svg" alt="header" />
         <h2 className="text-primary text-base font-semibold">
           Rating & Reviews [{productInfo?.reviews.length}]
         </h2>
@@ -128,10 +128,10 @@ const ProductReviews = ({ productId }: Props) => {
                   key={i}
                   src={
                     review.rating >= i + 1
-                      ? "../../../src/assets/Vector (5).svg"
+                      ? "/assets/Vector (5).svg"
                       : review.rating >= i + 0.5
-                      ? "../../../src/assets/star-half-filled.svg"
-                      : "../../../src/assets/Vector (6).svg"
+                      ? "/assets/star-half-filled.svg"
+                      : "/assets/Vector (6).svg"
                   }
                   alt="star"
                   className="w-4 h-4"
@@ -169,8 +169,8 @@ const ProductReviews = ({ productId }: Props) => {
               key={num}
               src={
                 rating >= num
-                  ? "../../../src/assets/Vector (5).svg"
-                  : "../../../src/assets/Vector (6).svg"
+                  ? "/assets/Vector (5).svg"
+                  : "/assets/Vector (6).svg"
               }
               alt="star"
               className="w-6 h-6 cursor-pointer"

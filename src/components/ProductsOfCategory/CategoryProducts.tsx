@@ -58,8 +58,8 @@ const CategoryProducts = () => {
                             <img
   src={
     favorites.some((fav) => fav._id === product._id)
-      ? "../../../src/assets/Fill Heart (1).svg"
-      : "../../../src/assets/Fill Heart.svg"
+      ? "/assets/Fill Heart (1).svg"
+      : "/assets/Fill Heart.svg"
   }
   alt="fav"
   className="cursor-pointer"
@@ -68,7 +68,7 @@ const CategoryProducts = () => {
     toggleFavorite(product);
   }}
 />
-<img src="../../../src/assets/Fill Eye.svg" alt="eye"  className="cursor-pointer"  onClick={() => handleProduct(product._id,product.slug,product.categoryId)} />
+<img src="/assets/Fill Eye.svg" alt="eye"  className="cursor-pointer"  onClick={() => handleProduct(product._id,product.slug,product.categoryId)} />
 </div>
 
 <div className="absolute top-2 left-2 flex flex-col items-center">
@@ -93,7 +93,7 @@ const CategoryProducts = () => {
 
                                 <div className="flex items-center">
   {Array.from({ length: Math.min(product.avgRating, 5) }).map((_, i) => (
-    <span key={i}><img src="../../../src/assets/Vector (5).svg" alt="star" /></span>
+    <span key={i}><img src="/assets/Vector (5).svg" alt="star" /></span>
   ))}
 </div>
 <div className="text-primaryText opacity-50">

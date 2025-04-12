@@ -62,13 +62,13 @@ const Wishlist = () => {
                 <div className="relative group">
                   <div className="absolute top-2 right-2 flex flex-col items-center gap-2">
                     <img
-                      src="../../../src/assets/Frame 568.svg"
+                      src="/assets/Frame 568.svg"
                       alt="delete"
                       className="cursor-pointer"
                       onClick={() => handleDelete(product)}
                     />
                     <img
-                      src="../../../src/assets/Fill Eye.svg"
+                      src="/assets/Fill Eye.svg"
                       alt="eye"
                       className="cursor-pointer"
                       onClick={() => handleProduct(product._id, product.slug)}
@@ -106,7 +106,7 @@ const Wishlist = () => {
                   <div className="flex items-center">
                     {Array.from({ length: Math.min(product.avgRating, 5) }).map((_, i) => (
                       <span key={i}>
-                        <img src="../../../src/assets/Vector (5).svg" alt="star" />
+                        <img src="/assets/Vector (5).svg" alt="star" />
                       </span>
                     ))}
                   </div>

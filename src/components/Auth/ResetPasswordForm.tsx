@@ -18,7 +18,7 @@ const ResetPasswordForm = () => {
     const onSubmit:SubmitHandler<ResetFormData>=(data)=>resetPassword(data)
     return (
         <div className="flex flex-col 2md:flex-row ">
-       <img src="../../../src/assets/dl.beatsnoop 1.svg" alt="signup" />   
+       <img src="/assets/dl.beatsnoop 1.svg" alt="signup" />   
        <div className="w-full 2md:w-[95%] p-8 flex flex-col items-start justify-center">
         <h2 className="font-Inter font-medium text-3xl pb-6 text-primaryText">Reset Your Password</h2>
         <p className="text-primaryText text-base font-normal pb-12">Enter your details below</p>

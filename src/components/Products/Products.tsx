@@ -48,7 +48,7 @@ const Products = () => {
   return (
     <div className="flex flex-col mt-10">
       <div className="flex flex-row items-center gap-4 mb-5">
-        <img src="../../../src/assets/Rectangle 18 (1).svg" alt="header" />
+        <img src="/assets/Rectangle 18 (1).svg" alt="header" />
         <h2 className="text-primary text-base font-semibold">Our Products</h2>
       </div>
 
@@ -63,8 +63,8 @@ const Products = () => {
                   <img
                     src={
                       favorites.some((fav) => fav._id === product._id)
-                        ? "../../../src/assets/Fill Heart (1).svg"
-                        : "../../../src/assets/Fill Heart.svg"
+                        ? "/assets/Fill Heart (1).svg"
+                        : "/assets/Fill Heart.svg"
                     }
                     alt="fav"
                     className="cursor-pointer"
@@ -74,7 +74,7 @@ const Products = () => {
                     }}
                   />
                   <img
-                    src="../../../src/assets/Fill Eye.svg"
+                    src="/assets/Fill Eye.svg"
                     alt="eye"
                     className="cursor-pointer"
                     onClick={() => handleProduct(product._id, product.slug, product.categoryId)}
@@ -109,7 +109,7 @@ const Products = () => {
 
                 <div className="flex items-center">
                   {Array.from({ length: Math.min(product.avgRating, 5) }).map((_, i) => (
-                    <span key={i}><img src="../../../src/assets/Vector (5).svg" alt="star" /></span>
+                    <span key={i}><img src="/assets/Vector (5).svg" alt="star" /></span>
                   ))}
                 </div>
                 <div className="text-primaryText opacity-50">

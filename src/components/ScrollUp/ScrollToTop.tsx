@@ -31,7 +31,7 @@ const ScrollToTop = () => {
           className="fixed bottom-5 right-5 bg-primary text-white p-3 rounded-full shadow-lg hover:bg-red-800 transition"
         >
           <img
-            src="../../../src/assets/Fill with Up Arrow.svg"
+            src="/assets/Fill with Up Arrow.svg"
             alt="Scroll to top"
             className="w-6 h-6"  
           />

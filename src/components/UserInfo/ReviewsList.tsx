@@ -104,10 +104,10 @@ const ReviewsList = () => {
                           key={i}
                           src={
                             review.rating >= i + 1
-                              ? "../../../src/assets/Vector (5).svg"
+                              ? "/assets/Vector (5).svg"
                               : review.rating >= i + 0.5
-                              ? "../../../src/assets/star-half-filled.svg"
-                              : "../../../src/assets/Vector (6).svg"
+                              ? "/assets/star-half-filled.svg"
+                              : "/assets/Vector (6).svg"
                           }
                           alt="star"
                           className="w-4 h-4"
@@ -118,14 +118,14 @@ const ReviewsList = () => {
                     {/* Actions */}
                     <div className="flex flex-row gap-2">
                       <img
-                        src="../../../src/assets/Frame 568.svg"
+                        src="/assets/Frame 568.svg"
                         alt="delete"
                         className="cursor-pointer"
                         onClick={() => handleDelete(review._id)}
                       />
                       {product && (
                         <img
-                          src="../../../src/assets/Fill Eye.svg"
+                          src="/assets/Fill Eye.svg"
                           alt="eye"
                           className="cursor-pointer"
                           onClick={() =>
