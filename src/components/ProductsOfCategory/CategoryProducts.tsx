@@ -1,12 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import UseCategories from '../../hooks/useCtegories';
 import { Product } from '../../types/productTypes';
 import UseAddToCart from '../../hooks/useCart';
+import AuthContext from '../../context/AuthContext';
 
 const CategoryProducts = () => {
     const { categoryId } = useParams();
     const navigate = useNavigate();
+      const auth = useContext(AuthContext);
+    
     const [favorites, setFavorites] = useState<Product[]>([]);
     const {addProduct}=UseAddToCart();
     let {getProductsByCategory,products}=UseCategories()
@@ -79,9 +82,9 @@ const CategoryProducts = () => {
                                 alt="product"
                                 className="w-full h-52 object-cover mb-2 rounded"
                             />
-
-                              <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 group-hover:bg-opacity-100 top-40 transition-opacity h-10 rounded text-center pt-2 pb-2 cursor-pointer text-white"onClick={()=>handleAddProduct(product,1)}  >Add To Cart</div>
-                      
+{auth?.isAuthenticated&&( <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 group-hover:bg-opacity-100 top-40 transition-opacity h-10 rounded text-center pt-2 pb-2 cursor-pointer text-white"onClick={()=>handleAddProduct(product,1)}  >Add To Cart</div>
+                      )}
+                             
                             </div>
                                   <div className="font-medium mb-1">{product.name}</div>
                             <div className="flex justify-items-center items-center gap-2 text-base text-primary">

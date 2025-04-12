@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import UseSpecificProduct from "../../hooks/useSpecificProduct";
 import { Link } from "react-router-dom";
 import UseAddToCart from "../../hooks/useCart";
 import { Product } from "../../types/productTypes";
+import AuthContext from "../../context/AuthContext";
 
 type Props = {
   productId: string;
@@ -11,6 +12,7 @@ type Props = {
 const ProductDescription = ({ productId }: Props) => {
   const { getProduct, productInfo } = UseSpecificProduct();
   const { addProduct } = UseAddToCart();
+  const auth = useContext(AuthContext);
 
   const [quantity, setQuantity] = useState<number>(1);
   const [favorites, setFavorites] = useState<Product[]>([]);
@@ -171,7 +173,7 @@ const ProductDescription = ({ productId }: Props) => {
           <p className="text-sm text-primaryText">
             {productInfo?.description}
           </p>
-          <div className="flex items-center px-4 py-2 mt-6">
+      {auth?.isAuthenticated&&(<div className="flex items-center px-4 py-2 mt-6">
             <img
               src="../../../src/assets/minus.svg"
               alt="minus"
@@ -187,15 +189,15 @@ const ProductDescription = ({ productId }: Props) => {
               onClick={handleIncrement}
               className={`w-10 h-10 ${quantity < (productInfo?.stock ?? 0) ? "cursor-pointer" : "cursor-not-allowed"}`}
             />
-          </div>
+          </div>)}    
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-6 mt-6">
-            <img
+          {auth?.isAuthenticated&&(<img
               src="../../../src/assets/Button.svg"
               alt="add"
               onClick={handleAddToCartClick}
               className="w-full sm:w-auto max-w-xs cursor-pointer"
-            />
+            />)   }     
             <img
               src={
                 favorites.some((fav) => fav._id === productInfo?._id)

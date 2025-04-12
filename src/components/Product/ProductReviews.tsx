@@ -161,7 +161,7 @@ const ProductReviews = ({ productId }: Props) => {
       </div>
 
       {/* Add/Edit Review Form */}
-      <div className="border rounded p-6 my-10">
+      {auth?.isAuthenticated&&(<div className="border rounded p-6 my-10">
         <h3 className="text-lg font-semibold mb-4">{editingReview ? "Edit Review" : "Leave a Review"}</h3>
         <div className="flex items-center gap-2 mb-4">
           {[1, 2, 3, 4, 5].map((num) => (
@@ -187,7 +187,8 @@ const ProductReviews = ({ productId }: Props) => {
         <button onClick={handleSubmit} className="bg-primary text-white px-6 py-2 rounded">
           {editingReview ? "Update Review" : "Submit Review"}
         </button>
-      </div>
+      </div>)}
+      
     </>
   );
 };

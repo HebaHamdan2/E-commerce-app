@@ -1,15 +1,16 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Product } from "../../types/productTypes";
 import UseCart from "../../hooks/useCart";
 import { useGetProductsQuery } from "../../features/api/productsApi";
+import AuthContext from "../../context/AuthContext";
 
 const Products = () => {
   const { data, isLoading, isError } = useGetProductsQuery({ page: 1, limit: 8 });
   const navigate = useNavigate();
   const [favorites, setFavorites] = useState<Product[]>([]);
   const { addProduct } = UseCart();
-
+  const auth = useContext(AuthContext);
   const allproducts = data?.products || [];
 
   useEffect(() => {
@@ -93,12 +94,12 @@ const Products = () => {
                   alt="product"
                   className="w-full h-52 object-cover mb-2 rounded"
                 />
-                <div
+               {auth?.isAuthenticated&&( <div
                   className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 group-hover:bg-opacity-100 top-40 transition-opacity h-10 rounded text-center pt-2 pb-2 cursor-pointer text-white"
                   onClick={() => handleAddProduct(product, 1)}
                 >
                   Add To Cart
-                </div>
+                </div>)}
               </div>
 
               <div className="font-medium mb-1">{product.name}</div>
