@@ -145,10 +145,10 @@ const ProductDescription = ({ productId }: Props) => {
                   key={i}
                   src={
                     rating >= i + 1
-                      ? "../../../src/assets/Vector (5).svg"
+                      ? "/assets/Vector (5).svg"
                       : rating >= i + 0.5
-                      ? "../../../src/assets/star-half-filled.svg"
-                      : "../../../src/assets/Vector (6).svg"
+                      ? "/assets/star-half-filled.svg"
+                      : "/assets/Vector (6).svg"
                   }
                   alt="star"
                   className="w-4 h-4"
