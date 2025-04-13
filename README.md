@@ -58,7 +58,7 @@ A modern, responsive E-commerce web application built with **React (Vite + TypeS
 ### Backend
 - **Node.js**
 - **Express.js**  
-> See the [Backend Repo](https://github.com/HebaHamdan2/E-commerce-app) for details.
+> See the [Backend Repo](https://github.com/HebaHamdan2/E-commerce-Backend-API) for details.
 
 ---
 
