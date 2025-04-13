@@ -1,54 +1,72 @@
-# React + TypeScript + Vite
+# E-Commerce App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive E-commerce web application built with **React (Vite + TypeScript)** on the frontend and **Node.js + Express.js** on the backend. This project demonstrates full-stack development with robust user interaction, product management, authentication, and order handling.
 
-Currently, two official plugins are available:
+##  Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+###  Home Page
+- **Carousel Section (Browse By Category)**: Clickable categories that navigate to corresponding product pages.
+- **Explore Our Products Section**: Displays up to 8 featured product cards with quick links to product details.
 
-## Expanding the ESLint configuration
+###  Product Details Page
+- Detailed product view with images, price, description, and quantity selection.
+- Options to **Add to Cart** or **Add to Wishlist**.
+- **Reviews Section**:
+  - View customer reviews.
+  - Logged-in users can leave a **single review per product** (only if they’ve purchased and received it).
+  - Edit or delete their own review.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+###  Authentication
+- **Sign Up / Login** with a global AuthContext.
+- **Forgot Password** functionality on the login page to reset the password by sending a verification code to the user's email.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+###  User Dashboard
+- **Manage Account**: Edit profile information (name, address, phone) and change password.
+- **Order History**: Displays all user orders with statuses, with the ability to cancel pending orders.
+- **My Reviews**: Displays all user reviews across products with options to preview or delete.
+- **Logout**
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+###  Wishlist
+- Wishlist functionality is available for both logged-in and guest users (data is stored in localStorage).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+###  State Management & API Integration
+- **AuthContext** for handling authentication.
+- **Redux Toolkit** for cart state management.
+- **RTK Query** for fetching data (categories, products ).
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+###  Styling & Components
+- **Tailwind CSS** for rapid UI development.
+- **DaisyUI** for prebuilt UI components (e.g., carousels).
+- Custom **404 Not Found Page** that redirects users to the homepage for undefined routes.
+
+---
+
+## Tech Stack
+
+### Frontend
+- **React 19** + **Vite**
+- **TypeScript**
+- **React Router DOM v7**
+- **Redux Toolkit** and **RTK Query**
+- **React Hook Form**
+- **Tailwind CSS** + **DaisyUI**
+- **Yup** (for validation)
+- **Axios**
+- **JWT Decode**
+- **React Hot Toast**
+
+### Backend
+- **Node.js**
+- **Express.js**  
+> See the [Backend Repo](https://github.com/HebaHamdan2/E-commerce-app) for details.
+
+---
+
+## 🎨 UI/UX Design
+
+This project is based on a beautiful design created in Figma:  
+[Full E-Commerce Website UI/UX Design – Community](https://www.figma.com/design/MVhdDQh3iOfwjUd00RTS0c/Full-E-Commerce-Website-UI-UX-Design--Community-?node-id=34-213&t=Pe8m0vruGFSLqkXu-0)
+
+---
+## Contributing
+Contributions are welcome to improve features and impact. Feel free to fork, submit pull requests, or suggest ideas!
